@@ -1,1711 +1,1871 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alpha Crypto 369 — Market Intelligence</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AC369 · Signal System</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --bg:        #050a0e;
-    --bg2:       #080f14;
-    --bg3:       #0d1820;
-    --border:    #0e2a35;
-    --cyan:      #00ffe0;
-    --cyan2:     #00c8b0;
-    --green:     #00ff88;
-    --green2:    #00c860;
-    --red:       #ff3860;
-    --gold:      #ffc847;
-    --text:      #c8dde6;
-    --text2:     #7a9aaa;
-    --text3:     #3d5a68;
-    --glow-c:    0 0 18px rgba(0,255,224,0.35);
-    --glow-g:    0 0 18px rgba(0,255,136,0.35);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* SCANLINE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.08) 2px,
-      rgba(0,0,0,0.08) 4px
-    );
-    pointer-events: none;
-    z-index: 9999;
-  }
-
-  /* GRID BACKGROUND */
-  body::after {
-    content: '';
-    position: fixed; inset: 0;
-    background-image:
-      linear-gradient(rgba(0,255,224,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,224,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ── HEADER ── */
-  header {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(5,10,14,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 clamp(16px,4vw,48px);
-    display: flex; align-items: center; justify-content: space-between;
-    height: 64px;
-  }
-
-  .logo {
-    font-family: 'Orbitron', monospace;
-    font-weight: 900;
-    font-size: clamp(14px,2vw,20px);
-    letter-spacing: 2px;
-    color: var(--cyan);
-    text-shadow: var(--glow-c);
-    text-decoration: none;
-  }
-  .logo span { color: var(--green); }
-
-  nav { display: flex; gap: clamp(12px,2vw,28px); align-items: center; }
-  nav a {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    color: var(--text2);
-    text-decoration: none;
-    letter-spacing: 1.5px;
-    transition: color .2s, text-shadow .2s;
-  }
-  nav a:hover { color: var(--cyan); text-shadow: var(--glow-c); }
-
-  .nav-cta {
-    background: transparent;
-    border: 1px solid var(--cyan);
-    color: var(--cyan) !important;
-    padding: 6px 14px;
-    font-size: 11px !important;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: background .2s, box-shadow .2s;
-  }
-  .nav-cta:hover { background: rgba(0,255,224,0.08); box-shadow: var(--glow-c); }
-
-  /* ── HERO ── */
-  .hero {
-    position: relative; z-index: 1;
-    padding: clamp(60px,8vw,120px) clamp(16px,4vw,48px) clamp(40px,6vw,80px);
-    max-width: 1200px; margin: 0 auto;
-  }
-
-  .hero-tag {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    color: var(--green);
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .hero-tag::before {
-    content: '';
-    display: inline-block; width: 24px; height: 1px;
-    background: var(--green);
-    box-shadow: var(--glow-g);
-  }
-
-  .hero h1 {
-    font-family: 'Orbitron', monospace;
-    font-weight: 900;
-    font-size: clamp(28px,5vw,64px);
-    line-height: 1.1;
-    letter-spacing: -1px;
-    margin-bottom: 20px;
-  }
-  .hero h1 .line1 { color: #fff; }
-  .hero h1 .line2 {
-    color: transparent;
-    -webkit-text-stroke: 1px var(--cyan);
-    text-shadow: none;
-  }
-  .hero h1 .line3 { color: var(--cyan); text-shadow: var(--glow-c); }
-
-  .hero-desc {
-    font-size: clamp(14px,1.5vw,18px);
-    color: var(--text2);
-    max-width: 580px;
-    margin-bottom: 36px;
-    font-weight: 300;
-  }
-
-  .hero-stats {
-    display: flex; gap: clamp(20px,3vw,48px);
-    flex-wrap: wrap;
-    margin-bottom: 40px;
-  }
-  .stat { display: flex; flex-direction: column; gap: 4px; }
-  .stat-num {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(18px,2.5vw,28px);
-    font-weight: 700;
-    color: var(--cyan);
-    text-shadow: var(--glow-c);
-  }
-  .stat-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--text3);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
-
-  .btn-primary {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 2px;
-    padding: 12px 28px;
-    background: var(--cyan);
-    color: var(--bg);
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex; align-items: center; gap: 8px;
-    transition: box-shadow .2s, transform .1s;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  }
-  .btn-primary:hover { box-shadow: var(--glow-c); transform: translateY(-1px); }
-
-  .btn-secondary {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 2px;
-    padding: 12px 28px;
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex; align-items: center; gap: 8px;
-    transition: border-color .2s, color .2s;
-  }
-  .btn-secondary:hover { border-color: var(--cyan2); color: var(--cyan); }
-
-  /* ── METHODOLOGY BADGES ── */
-  .method-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 14px 7px 10px;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-left: 2px solid var(--mc);
-    transition: background .2s, border-color .2s, transform .15s;
-    cursor: default;
-  }
-  .method-badge:hover {
-    background: rgba(255,255,255,0.045);
-    border-color: var(--mc);
-    transform: translateY(-2px);
-  }
-  .method-icon {
-    font-size: 14px;
-    color: var(--mc);
-    line-height: 1;
-    text-shadow: 0 0 10px var(--mc);
-  }
-  .method-name {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text2);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .method-tag {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 2px;
-    color: var(--mc);
-    background: rgba(255,255,255,0.04);
-    padding: 2px 6px;
-    border: 1px solid var(--mc);
-    opacity: 0.8;
-  }
-
-  /* ── METHODOLOGY DETAIL SECTION ── */
-  .method-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 14px;
-  }
-  .method-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: 20px 18px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color .25s, transform .2s;
-  }
-  .method-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 2px;
-    background: var(--mc);
-    box-shadow: 0 0 12px var(--mc);
-  }
-  .method-card:hover {
-    border-color: var(--mc);
-    transform: translateY(-2px);
-  }
-  .mc-icon {
-    font-size: 22px;
-    color: var(--mc);
-    text-shadow: 0 0 14px var(--mc);
-    margin-bottom: 10px;
-    display: block;
-  }
-  .mc-title {
-    font-family: 'Orbitron', monospace;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--mc);
-    letter-spacing: 2px;
-    margin-bottom: 4px;
-  }
-  .mc-full {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 8px;
-  }
-  .mc-desc {
-    font-size: 12px;
-    color: var(--text2);
-    font-weight: 300;
-    line-height: 1.5;
-  }
-  .mc-tools {
-    margin-top: 10px;
-    display: flex; flex-wrap: wrap; gap: 4px;
-  }
-  .mc-tool {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 1px;
-    padding: 2px 6px;
-    border: 1px solid rgba(255,255,255,0.08);
-    color: var(--text3);
-  }
-
-
-  .ticker-wrap {
-    position: relative; z-index: 1;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    background: var(--bg2);
-    padding: 10px 0;
-    overflow: hidden;
-    margin-bottom: 60px;
-  }
-  .ticker-inner {
-    display: flex; gap: 48px;
-    animation: ticker-scroll 30s linear infinite;
-    white-space: nowrap;
-    width: max-content;
-  }
-  .ticker-inner:hover { animation-play-state: paused; }
-  @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-  .tick-item {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .tick-sym { color: var(--text2); letter-spacing: 1px; }
-  .tick-val { color: #fff; font-weight: 600; }
-  .tick-chg.up { color: var(--green); }
-  .tick-chg.dn { color: var(--red); }
-
-  /* ── SECTION LAYOUT ── */
-  .container {
-    position: relative; z-index: 1;
-    max-width: 1200px; margin: 0 auto;
-    padding: 0 clamp(16px,4vw,48px);
-  }
-
-  .section { margin-bottom: clamp(60px,8vw,100px); }
-
-  .section-header {
-    display: flex; align-items: flex-end; justify-content: space-between;
-    margin-bottom: 32px;
-    gap: 16px; flex-wrap: wrap;
-  }
-
-  .section-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(16px,2vw,22px);
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 2px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .section-title::before {
-    content: '';
-    width: 4px; height: 20px;
-    background: var(--cyan);
-    box-shadow: var(--glow-c);
-    display: inline-block;
-  }
-
-  .section-link {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    color: var(--cyan2);
-    text-decoration: none;
-    letter-spacing: 2px;
-    transition: color .2s;
-  }
-  .section-link:hover { color: var(--cyan); }
-
-  /* ── FILTER TABS ── */
-  .filter-tabs {
-    display: flex; gap: 8px; flex-wrap: wrap;
-    margin-bottom: 28px;
-  }
-  .tab {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    padding: 6px 14px;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text3);
-    cursor: pointer;
-    transition: all .2s;
-  }
-  .tab.active, .tab:hover {
-    border-color: var(--cyan);
-    color: var(--cyan);
-    background: rgba(0,255,224,0.05);
-  }
-
-  /* ── POST GRID ── */
-  .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-  }
-
-  .post-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: 24px;
-    cursor: pointer;
-    transition: border-color .25s, transform .2s, box-shadow .25s;
-    position: relative;
-    overflow: hidden;
-  }
-  .post-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--cyan), var(--green));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform .3s;
-  }
-  .post-card:hover {
-    border-color: var(--cyan2);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.5), var(--glow-c);
-  }
-  .post-card:hover::before { transform: scaleX(1); }
-
-  .post-meta {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  .post-cat {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border: 1px solid;
-  }
-  .cat-btc { color: var(--gold); border-color: rgba(255,200,71,0.3); background: rgba(255,200,71,0.05); }
-  .cat-altcoin { color: var(--cyan); border-color: rgba(0,255,224,0.3); background: rgba(0,255,224,0.05); }
-  .cat-onchain { color: var(--green); border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.05); }
-  .cat-macro { color: #b39dff; border-color: rgba(179,157,255,0.3); background: rgba(179,157,255,0.05); }
-
-  .post-date {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--text3);
-    letter-spacing: 1px;
-  }
-
-  .post-title {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: clamp(16px,1.8vw,20px);
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 10px;
-    line-height: 1.3;
-    letter-spacing: 0.5px;
-  }
-
-  .post-excerpt {
-    font-size: 13px;
-    color: var(--text2);
-    font-weight: 300;
-    line-height: 1.6;
-    margin-bottom: 18px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .post-footer {
-    display: flex; align-items: center; justify-content: space-between;
-  }
-
-  .post-bias {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .post-bias .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-  .bias-bull .dot { background: var(--green); box-shadow: 0 0 8px var(--green); }
-  .bias-bear .dot { background: var(--red); box-shadow: 0 0 8px var(--red); }
-  .bias-neutral .dot { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
-  .bias-bull { color: var(--green); }
-  .bias-bear { color: var(--red); }
-  .bias-neutral { color: var(--gold); }
-
-  @keyframes pulse {
-    0%,100% { opacity:1; transform:scale(1); }
-    50% { opacity:.5; transform:scale(1.4); }
-  }
-
-  .post-read {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--text3);
-    letter-spacing: 1px;
-  }
-
-  /* ── FEATURED (1 BIG POST) ── */
-  .post-card.featured {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    padding: 32px;
-  }
-  .post-card.featured .post-title { font-size: clamp(20px,2.5vw,28px); }
-  .post-card.featured .post-excerpt { -webkit-line-clamp: 5; font-size: 14px; }
-  .featured-right {
-    display: flex; flex-direction: column; justify-content: center;
-    gap: 20px;
-  }
-
-  .probability-bar { margin-top: 8px; }
-  .prob-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--text2);
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-  }
-  .bar-track {
-    height: 4px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 4px;
-  }
-  .bar-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
-  .bar-bull { background: linear-gradient(90deg, var(--green2), var(--green)); }
-  .bar-bear { background: linear-gradient(90deg, #c0182e, var(--red)); }
-  .bar-meta {
-    display: flex; justify-content: space-between;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 9px;
-    color: var(--text3);
-  }
-
-  .key-levels {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .level-box {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid var(--border);
-    padding: 10px 12px;
-  }
-  .level-tag {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    color: var(--text3);
-    margin-bottom: 4px;
-  }
-  .level-val {
-    font-family: 'Orbitron', monospace;
-    font-size: 13px;
-    font-weight: 700;
-  }
-  .lv-res { color: var(--red); }
-  .lv-sup { color: var(--green); }
-  .lv-entry { color: var(--cyan); }
-  .lv-tp { color: var(--gold); }
-
-  @media (max-width: 680px) {
-    .post-card.featured { grid-template-columns: 1fr; }
-    .featured-right { display: none; }
-  }
-
-  /* ── ABOUT SECTION ── */
-  .about-block {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: clamp(32px,4vw,56px);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(24px,4vw,56px);
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .about-block::after {
-    content: '369';
-    position: absolute; right: -20px; bottom: -40px;
-    font-family: 'Orbitron', monospace;
-    font-size: 200px;
-    font-weight: 900;
-    color: rgba(0,255,224,0.02);
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .about-tag {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--green);
-    letter-spacing: 4px;
-    margin-bottom: 16px;
-  }
-
-  .about-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(20px,2.5vw,32px);
-    font-weight: 900;
-    color: #fff;
-    line-height: 1.2;
-    margin-bottom: 16px;
-  }
-  .about-title span { color: var(--cyan); text-shadow: var(--glow-c); }
-
-  .about-desc {
-    font-size: 14px;
-    color: var(--text2);
-    font-weight: 300;
-    margin-bottom: 28px;
-    line-height: 1.7;
-  }
-
-  .tiers { display: flex; flex-direction: column; gap: 12px; }
-  .tier {
-    display: flex; align-items: center; gap: 14px;
-    padding: 14px 18px;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,0.01);
-    transition: border-color .2s;
-  }
-  .tier:hover { border-color: var(--cyan2); }
-  .tier-icon {
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-  .tier-info { flex: 1; }
-  .tier-name {
-    font-family: 'Orbitron', monospace;
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: 2px;
-  }
-  .tier-desc {
-    font-size: 12px;
-    color: var(--text2);
-    font-weight: 300;
-  }
-  .tier-free .tier-name { color: var(--text2); }
-  .tier-premium .tier-name { color: var(--cyan); }
-  .tier-vip .tier-name { color: var(--gold); }
-
-  .btn-tg {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 2px;
-    padding: 14px 28px;
-    background: linear-gradient(135deg, #1a7fbf, #0d5a8a);
-    color: #fff;
-    text-decoration: none;
-    border: 1px solid rgba(255,255,255,0.1);
-    transition: box-shadow .2s, transform .1s;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  }
-  .btn-tg:hover { box-shadow: 0 0 24px rgba(26,127,191,0.5); transform: translateY(-1px); }
-
-  @media (max-width: 700px) {
-    .about-block { grid-template-columns: 1fr; }
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    position: relative; z-index: 1;
-    border-top: 1px solid var(--border);
-    padding: clamp(32px,4vw,48px) clamp(16px,4vw,48px);
-    background: var(--bg2);
-  }
-  .footer-inner {
-    max-width: 1200px; margin: 0 auto;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 20px;
-  }
-  .footer-logo {
-    font-family: 'Orbitron', monospace;
-    font-size: 14px;
-    font-weight: 900;
-    color: var(--cyan);
-    letter-spacing: 2px;
-  }
-  .footer-logo span { color: var(--green); }
-  .footer-note {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--text3);
-    letter-spacing: 1px;
-    text-align: center;
-  }
-  .footer-disc {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 9px;
-    color: var(--text3);
-    letter-spacing: 1px;
-    text-align: right;
-    max-width: 260px;
-  }
-
-  /* ── MODAL (Article Reader) ── */
-  .modal-overlay {
-    display: none;
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(8px);
-    overflow-y: auto;
-  }
-  .modal-overlay.open { display: block; animation: fadeIn .2s; }
-  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-
-  .modal {
-    max-width: 820px; margin: 40px auto;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    position: relative;
-    animation: slideUp .3s ease;
-  }
-  @keyframes slideUp { from { transform:translateY(30px); opacity:0; } to { transform:none; opacity:1; } }
-
-  .modal-header {
-    padding: 32px 40px 24px;
-    border-bottom: 1px solid var(--border);
-  }
-  .modal-cat-date {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 16px;
-  }
-  .modal-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(18px,2.5vw,26px);
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.3;
-  }
-  .modal-close {
-    position: absolute; top: 20px; right: 20px;
-    width: 36px; height: 36px;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text2);
-    font-size: 18px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: border-color .2s, color .2s;
-  }
-  .modal-close:hover { border-color: var(--red); color: var(--red); }
-
-  .modal-body {
-    padding: 32px 40px;
-    font-size: 15px;
-    line-height: 1.8;
-    color: var(--text);
-  }
-
-  .modal-body h2 {
-    font-family: 'Orbitron', monospace;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--cyan);
-    letter-spacing: 2px;
-    margin: 28px 0 12px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .modal-body h2::before {
-    content: '';
-    width: 20px; height: 1px;
-    background: var(--cyan);
-  }
-
-  .modal-body p { margin-bottom: 14px; color: var(--text2); }
-  .modal-body strong { color: #fff; font-weight: 600; }
-
-  .modal-body .highlight-box {
-    background: rgba(0,255,224,0.04);
-    border: 1px solid rgba(0,255,224,0.15);
-    border-left: 3px solid var(--cyan);
-    padding: 16px 20px;
-    margin: 20px 0;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-  }
-
-  .modal-body table {
-    width: 100%; border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 13px;
-  }
-  .modal-body th {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--text3);
-    padding: 10px 14px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-  .modal-body td {
-    padding: 10px 14px;
-    border-bottom: 1px solid rgba(14,42,53,0.6);
-    color: var(--text);
-  }
-  .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
-
-  @media (max-width: 600px) {
-    .modal { margin: 0; }
-    .modal-header, .modal-body { padding: 24px 20px; }
-  }
-
-  /* ── ADMIN PANEL ── */
-  .admin-overlay {
-    display: none;
-    position: fixed; inset: 0; z-index: 300;
-    background: rgba(0,0,0,0.92);
-    backdrop-filter: blur(12px);
-    overflow-y: auto;
-  }
-  .admin-overlay.open { display: block; }
-
-  .admin-panel {
-    max-width: 720px; margin: 40px auto;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: 40px;
-  }
-
-  .admin-title {
-    font-family: 'Orbitron', monospace;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--cyan);
-    letter-spacing: 2px;
-    margin-bottom: 32px;
-    display: flex; align-items: center; gap: 12px;
-  }
-
-  .form-group { margin-bottom: 20px; }
-  .form-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--text2);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    display: block;
-  }
-  .form-input, .form-select, .form-textarea {
-    width: 100%;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 10px 14px;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color .2s;
-    resize: vertical;
-  }
-  .form-input:focus, .form-select:focus, .form-textarea:focus {
-    border-color: var(--cyan);
-    box-shadow: 0 0 0 1px rgba(0,255,224,0.1);
-  }
-  .form-select option { background: var(--bg2); }
-  .form-textarea { min-height: 200px; }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
-
-  .admin-btns { display: flex; gap: 12px; margin-top: 28px; }
-  .btn-publish {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 2px;
-    padding: 12px 28px;
-    background: var(--green);
-    color: var(--bg);
-    border: none; cursor: pointer;
-    transition: box-shadow .2s;
-  }
-  .btn-publish:hover { box-shadow: var(--glow-g); }
-  .btn-cancel {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 2px;
-    padding: 12px 20px;
-    background: transparent;
-    color: var(--text2);
-    border: 1px solid var(--border); cursor: pointer;
-    transition: border-color .2s;
-  }
-  .btn-cancel:hover { border-color: var(--text2); }
-
-  .admin-posts-list { margin-top: 32px; }
-  .admin-post-item {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-    gap: 12px;
-  }
-  .admin-post-title { font-size: 13px; color: var(--text); flex: 1; }
-  .admin-post-meta { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); }
-  .btn-delete {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px; letter-spacing: 1px;
-    padding: 4px 10px;
-    background: transparent;
-    border: 1px solid rgba(255,56,96,0.3);
-    color: var(--red);
-    cursor: pointer;
-    transition: background .2s;
-  }
-  .btn-delete:hover { background: rgba(255,56,96,0.1); }
-
-  /* ── LOGIN ── */
-  .login-box {
-    max-width: 360px; margin: 80px auto;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: 40px;
-  }
-  .login-title {
-    font-family: 'Orbitron', monospace;
-    font-size: 16px; font-weight: 700;
-    color: var(--cyan); letter-spacing: 2px;
-    margin-bottom: 28px; text-align: center;
-  }
-  .login-err {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px; color: var(--red);
-    letter-spacing: 1px; margin-top: 8px;
-    display: none;
-  }
-
-  /* ── STATUS BAR ── */
-  .status-bar {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    z-index: 50;
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    padding: 6px clamp(16px,4vw,48px);
-    display: flex; align-items: center; gap: 20px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px; color: var(--text3);
-  }
-  .status-item { display: flex; align-items: center; gap: 6px; }
-  .status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
-  .status-bar-right { margin-left: auto; }
-
-  /* ANIMATIONS */
-  .fade-in { opacity: 0; animation: fadeInUp .5s ease forwards; }
-  @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
-
-  .fade-in:nth-child(1) { animation-delay: .1s; }
-  .fade-in:nth-child(2) { animation-delay: .2s; }
-  .fade-in:nth-child(3) { animation-delay: .3s; }
-  .fade-in:nth-child(4) { animation-delay: .4s; }
-  .fade-in:nth-child(5) { animation-delay: .5s; }
-
-  /* PAGE: SINGLE ARTICLE */
-  #page-article { display: none; }
-  #page-home { display: block; }
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--g:#00ff87;--r:#ff4560;--y:#f5c518;--b:#00ccff;--bg:#060810;--card:rgba(9,12,20,.95);--brd:rgba(255,255,255,.07);--txt:#c4ccd6;--dim:#2d3d4d;--dmr:#1a2535}
+body{min-height:100vh;background:var(--bg);font-family:'IBM Plex Mono',monospace;color:var(--txt);overflow-x:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:rgba(0,255,135,.2);border-radius:4px}
+.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(0,255,135,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,135,.018) 1px,transparent 1px);background-size:42px 42px}
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 80% 45% at 50% -5%,rgba(0,255,135,.055) 0%,transparent 65%)}
+.bg-scan{position:fixed;left:0;right:0;height:2px;pointer-events:none;z-index:0;background:linear-gradient(transparent,rgba(0,255,135,.06),transparent);animation:scan 9s linear infinite}
+@keyframes scan{0%{top:-2px}100%{top:100vh}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:22px 14px 80px}
+.nav{display:flex;gap:5px;margin-bottom:18px;background:rgba(9,12,20,.9);border:1px solid var(--brd);border-radius:12px;padding:5px}
+.nb{flex:1;padding:9px 6px;background:transparent;border:none;border-radius:8px;color:var(--dim);font-size:9px;font-weight:700;letter-spacing:1.5px;cursor:pointer;font-family:inherit;text-transform:uppercase;transition:all .2s}
+.nb.active{background:rgba(0,255,135,.1);color:var(--g);border:1px solid rgba(0,255,135,.25)}
+.tab{display:none}.tab.active{display:block}
+.hdr{text-align:center;margin-bottom:24px;animation:fadeUp .5s ease}
+.badge{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(0,255,135,.2);border-radius:3px;padding:4px 12px;margin-bottom:11px;background:rgba(0,255,135,.03)}
+.bdot{width:5px;height:5px;border-radius:50%;background:var(--g);animation:pulse 2s infinite}
+.btxt{font-size:8px;letter-spacing:3px;color:var(--g);text-transform:uppercase}
+h1{font-size:clamp(20px,5vw,34px);font-weight:700;color:#e8f0f8;letter-spacing:-1px;line-height:1.1;margin-bottom:5px}
+.grad{background:linear-gradient(90deg,var(--g),var(--b));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.card{background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:18px 20px;backdrop-filter:blur(14px);box-shadow:0 4px 32px rgba(0,0,0,.5);animation:fadeUp .35s ease both;margin-bottom:12px}
+.sh{font-size:9px;letter-spacing:3px;color:var(--g);text-transform:uppercase;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid rgba(0,255,135,.09);display:flex;align-items:center;gap:7px}
+.sh::before{content:'';width:3px;height:3px;border-radius:50%;background:var(--g);display:inline-block;flex-shrink:0}
+.row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.rl{color:#3d4a5a;font-size:11px;flex-shrink:0;padding-right:10px}
+.rv{font-size:11px;text-align:right;font-weight:500;line-height:1.4}
+.rv.mono{font-size:12px;font-weight:700;font-family:'IBM Plex Mono',monospace}
+.inp-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+input[type=text]{flex:1;min-width:140px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:13px 16px;font-size:20px;font-weight:700;color:var(--g);outline:none;font-family:inherit;letter-spacing:3px;caret-color:var(--g);transition:border-color .2s}
+input[type=text]:focus{border-color:rgba(0,255,135,.4)}
+.btn{padding:12px 20px;background:rgba(0,255,135,.09);border:1px solid rgba(0,255,135,.35);border-radius:10px;color:var(--g);font-size:10px;font-weight:700;letter-spacing:2px;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap}
+.btn:hover:not(:disabled){background:rgba(0,255,135,.18);box-shadow:0 0 18px rgba(0,255,135,.2)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-r{background:rgba(255,69,96,.08);border-color:rgba(255,69,96,.3);color:var(--r)}
+.btn-r:hover:not(:disabled){background:rgba(255,69,96,.18)!important}
+.qw{display:flex;gap:5px;flex-wrap:wrap}
+.qb{padding:3px 9px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:12px;color:var(--dim);font-size:9px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.qb:hover{background:rgba(0,255,135,.07);border-color:rgba(0,255,135,.4);color:var(--g)}
+.loader{text-align:center;padding:36px}
+.sw{width:46px;height:46px;margin:0 auto 14px;position:relative}
+.sp1{position:absolute;inset:0;border:2px solid rgba(0,255,135,.06);border-top:2px solid var(--g);border-radius:50%;animation:spin .75s linear infinite}
+.sp2{position:absolute;inset:7px;border:1px solid rgba(0,255,135,.04);border-bottom:1px solid rgba(0,255,135,.2);border-radius:50%;animation:spin 1.1s linear infinite reverse}
+.sig-card{border-radius:14px;padding:15px 18px;display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin-bottom:12px;animation:fadeUp .35s .05s ease both}
+.sig-ico{width:50px;height:50px;border-radius:12px;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px;animation:fadeUp .35s .08s ease both}
+@media(max-width:540px){.g2{grid-template-columns:1fr}}
+.g2 .card{margin-bottom:0}
+.mag{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:7px;margin-bottom:9px}
+.mai{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:8px;padding:8px 10px}
+.scg{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px;animation:fadeUp .35s .16s ease both}
+@media(max-width:540px){.scg{grid-template-columns:1fr}}
+.scc{border-radius:14px;padding:15px 17px}
+.zr{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.zt{font-size:9px;width:19px;flex-shrink:0;font-weight:700}
+.zp{font-size:12px;color:#e2eaf3;font-weight:700;font-family:'IBM Plex Mono',monospace;flex:1}
+/* TRACKER */
+.tri{background:rgba(9,12,20,.8);border:1px solid var(--brd);border-radius:12px;padding:13px 15px;margin-bottom:8px;position:relative;overflow:hidden}
+.tri::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:2px 0 0 2px}
+.tri.active::before{background:var(--y);box-shadow:0 0 8px rgba(245,197,24,.4)}
+.tri.win::before{background:var(--g);box-shadow:0 0 8px rgba(0,255,135,.4)}
+.tri.loss::before{background:var(--r);box-shadow:0 0 8px rgba(255,69,96,.4)}
+.tri.expired::before{background:var(--dim)}
+.trpb{height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden;margin-top:4px}
+.trpf{height:100%;border-radius:2px;transition:width .6s}
+/* WINRATE */
+.wrm{background:rgba(9,12,20,.8);border:1px solid var(--brd);border-radius:12px;padding:15px 17px;margin-bottom:9px}
+.wrb{height:5px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden;margin:6px 0 10px}
+.wrbf{height:100%;border-radius:3px;transition:width .7s}
+.wrs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.wri{background:rgba(255,255,255,.02);border-radius:7px;padding:7px 8px;text-align:center}
+.wrc{display:grid;grid-template-columns:repeat(auto-fit,minmax(75px,1fr));gap:5px;margin-top:9px}
+.wrci{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:7px;padding:7px;text-align:center}
+.lbl{font-size:8px;letter-spacing:3px;color:var(--dmr);text-transform:uppercase}
+.livdot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--g);animation:blink 1.5s infinite;margin-right:4px;vertical-align:middle}
+.tag{font-size:8px;color:var(--dmr);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:3px;padding:2px 6px;letter-spacing:1px;text-transform:uppercase;display:inline-block}
+.cbr{height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden;margin-top:4px}
+.hidden{display:none}
+.err{background:rgba(255,69,96,.05);border:1px solid rgba(255,69,96,.2);border-radius:12px;padding:14px 18px;margin-bottom:11px}
 </style>
 </head>
 <body>
+<div class="bg-grid"></div><div class="bg-glow"></div><div class="bg-scan"></div>
+<div class="wrap">
 
-<!-- HEADER -->
-<header>
-  <a class="logo" href="#" onclick="showHome()">ALPHA CRYPTO <span>369</span></a>
-  <nav>
-    <a href="#" onclick="filterPosts('all')">ANALISA</a>
-    <a href="#about">ABOUT</a>
-    <a href="#" class="nav-cta" onclick="openAdmin()">⚡ ADMIN</a>
-  </nav>
-</header>
-
-<!-- STATUS BAR -->
-<div class="status-bar">
-  <div class="status-item"><div class="status-dot"></div> LIVE</div>
-  <div class="status-item" id="btc-status">BTC: LOADING...</div>
-  <div class="status-item" id="dominance-status">DOM: —</div>
-  <div class="status-bar-right" id="clock-status">--:-- WIB</div>
+<div class="hdr">
+  <div class="badge"><span class="bdot"></span><span class="btxt">Alpha Crypto 369 · Live · Binance + CoinGecko</span></div>
+  <h1>AC369 <span class="grad">SIGNAL SYSTEM</span></h1>
+  <p class="lbl" style="letter-spacing:1.5px;margin-top:3px">Analisis · Auto Tracker TP/SL · Monthly Winrate</p>
+  <div style="margin-top:10px">
+    <a href="content-funnel.html" style="color:#00ccff;font-size:9px;letter-spacing:2px;text-decoration:none;border:1px solid rgba(0,204,255,.2);border-radius:6px;padding:4px 12px">✍ Content Funnel Generator →</a>
+  </div>
 </div>
 
-<!-- HOME PAGE -->
-<div id="page-home">
-
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-tag">INSTITUTIONAL GRADE CRYPTO INTELLIGENCE</div>
-    <h1>
-      <div class="line1">MARKET</div>
-      <div class="line2">INTELLIGENCE</div>
-      <div class="line3">TERMINAL</div>
-    </h1>
-    <p class="hero-desc">Analisa crypto berbasis Smart Money Concept, On-Chain data, dan Astro Trading. Bukan untuk retail biasa.</p>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num" id="stat-posts">0</div>
-        <div class="stat-label">ANALISA PUBLISHED</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">3</div>
-        <div class="stat-label">TIER MEMBERSHIP</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">5</div>
-        <div class="stat-label">LAYER ANALYSIS</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">100%</div>
-        <div class="stat-label">DATA DRIVEN</div>
-      </div>
-    </div>
-
-    <!-- METHODOLOGY BADGES -->
-    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px;">
-      <div class="method-badge" style="--mc:var(--cyan)">
-        <span class="method-icon">◈</span>
-        <span class="method-name">SMART MONEY CONCEPT</span>
-        <span class="method-tag">SMC</span>
-      </div>
-      <div class="method-badge" style="--mc:var(--green)">
-        <span class="method-icon">◉</span>
-        <span class="method-name">INNER CIRCLE TRADER</span>
-        <span class="method-tag">ICT</span>
-      </div>
-      <div class="method-badge" style="--mc:#b39dff">
-        <span class="method-icon">◬</span>
-        <span class="method-name">CHART PATTERN</span>
-        <span class="method-tag">PA</span>
-      </div>
-      <div class="method-badge" style="--mc:var(--gold)">
-        <span class="method-icon">⬡</span>
-        <span class="method-name">ON-CHAIN DATA</span>
-        <span class="method-tag">OCA</span>
-      </div>
-      <div class="method-badge" style="--mc:#ff7eb6">
-        <span class="method-icon">✦</span>
-        <span class="method-name">FINANCIAL ASTROLOGY</span>
-        <span class="method-tag">ASTRO</span>
-      </div>
-    </div>
-    <div class="hero-btns">
-      <a href="javascript:void(0)" onclick="document.getElementById('posts').scrollIntoView({behavior:'smooth'})" class="btn-primary">▶ BACA ANALISA</a>
-      <a href="https://t.me/Alphacrypto_id" target="_blank" class="btn-secondary">📡 FREE CHANNEL</a>
-    </div>
-  </div>
-
-  <!-- TICKER -->
-  <div class="ticker-wrap" id="ticker-wrap"></div>
-
-  <!-- METHODOLOGY SECTION -->
-  <div class="container">
-    <div class="section" style="margin-bottom:clamp(40px,5vw,64px);">
-      <div class="section-header">
-        <div class="section-title">METHODOLOGY</div>
-        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:2px;">5-LAYER ANALYSIS FRAMEWORK</div>
-      </div>
-      <div class="method-grid">
-
-        <div class="method-card" style="--mc:var(--cyan)">
-          <span class="mc-icon">◈</span>
-          <div class="mc-title">SMC</div>
-          <div class="mc-full">Smart Money Concept</div>
-          <div class="mc-desc">Membaca jejak institusi melalui Order Block, FVG, BOS, dan CHoCH. Fokus pada likuiditas dan manipulasi harga.</div>
-          <div class="mc-tools">
-            <span class="mc-tool">ORDER BLOCK</span>
-            <span class="mc-tool">FVG</span>
-            <span class="mc-tool">BOS/CHOCH</span>
-            <span class="mc-tool">LIQUIDITY</span>
-          </div>
-        </div>
-
-        <div class="method-card" style="--mc:var(--green)">
-          <span class="mc-icon">◉</span>
-          <div class="mc-title">ICT</div>
-          <div class="mc-full">Inner Circle Trader</div>
-          <div class="mc-desc">Kill Zone timing, Optimal Trade Entry, Premium/Discount zones, dan PD Arrays untuk eksekusi presisi tinggi.</div>
-          <div class="mc-tools">
-            <span class="mc-tool">KILL ZONE</span>
-            <span class="mc-tool">OTE</span>
-            <span class="mc-tool">PD ARRAY</span>
-            <span class="mc-tool">BREAKER</span>
-          </div>
-        </div>
-
-        <div class="method-card" style="--mc:#b39dff">
-          <span class="mc-icon">◬</span>
-          <div class="mc-title">CHART PATTERN</div>
-          <div class="mc-full">Price Action & Structure</div>
-          <div class="mc-desc">Multi-timeframe price action — divergence, market structure, supply/demand zones, dan pattern klasik berbasis probabilitas.</div>
-          <div class="mc-tools">
-            <span class="mc-tool">DIVERGENCE</span>
-            <span class="mc-tool">S/D ZONE</span>
-            <span class="mc-tool">WYCKOFF</span>
-            <span class="mc-tool">STRUCTURE</span>
-          </div>
-        </div>
-
-        <div class="method-card" style="--mc:var(--gold)">
-          <span class="mc-icon">⬡</span>
-          <div class="mc-title">ON-CHAIN</div>
-          <div class="mc-full">Blockchain Data Analysis</div>
-          <div class="mc-desc">MVRV Z-Score, SOPR, Exchange Flow, Whale Accumulation, Funding Rate, dan Open Interest untuk konfirmasi bias.</div>
-          <div class="mc-tools">
-            <span class="mc-tool">MVRV</span>
-            <span class="mc-tool">SOPR</span>
-            <span class="mc-tool">EXCHANGE FLOW</span>
-            <span class="mc-tool">CVD</span>
-          </div>
-        </div>
-
-        <div class="method-card" style="--mc:#ff7eb6">
-          <span class="mc-icon">✦</span>
-          <div class="mc-title">ASTROLOGY</div>
-          <div class="mc-full">Financial Astrology</div>
-          <div class="mc-desc">Planetary cycles, lunar phases, dan aspek mayor sebagai timing tool untuk mengidentifikasi window volatilitas tinggi.</div>
-          <div class="mc-tools">
-            <span class="mc-tool">LUNAR CYCLE</span>
-            <span class="mc-tool">RETROGRADE</span>
-            <span class="mc-tool">PLANETARY</span>
-            <span class="mc-tool">TIMING</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="section" id="posts">
-      <div class="section-header">
-        <div class="section-title">MARKET ANALYSIS</div>
-        <a class="section-link" href="#">VIEW ALL →</a>
-      </div>
-      <div class="filter-tabs" id="filter-tabs">
-        <button class="tab active" onclick="filterPosts('all', this)">ALL</button>
-        <button class="tab" onclick="filterPosts('BTC', this)">BTC</button>
-        <button class="tab" onclick="filterPosts('ALTCOIN', this)">ALTCOIN</button>
-        <button class="tab" onclick="filterPosts('ON-CHAIN', this)">ON-CHAIN</button>
-        <button class="tab" onclick="filterPosts('MACRO', this)">MACRO</button>
-      </div>
-      <div class="posts-grid" id="posts-grid">
-        <!-- populated by JS -->
-      </div>
-      <div id="empty-state" style="display:none; text-align:center; padding:60px 0;">
-        <div style="font-family:'Share Tech Mono',monospace; font-size:11px; color:var(--text3); letter-spacing:2px;">NO ANALYSIS PUBLISHED YET</div>
-        <div style="font-size:12px; color:var(--text3); margin-top:8px;">Klik ADMIN untuk tambah analisa pertama</div>
-      </div>
-    </div>
-
-    <!-- ABOUT -->
-    <div class="section" id="about">
-      <div class="section-header">
-        <div class="section-title">ABOUT</div>
-      </div>
-      <div class="about-block">
-        <div>
-          <div class="about-tag">// ALPHA CRYPTO 369</div>
-          <div class="about-title">SMART MONEY<br>THINKING FOR<br><span>SERIOUS TRADERS</span></div>
-          <p class="about-desc">Kami tidak menjual mimpi. Kami menjual analisa berbasis data — on-chain, teknikal SMC/ICT, dan astro trading sebagai konfirmasi timing. Dirancang untuk mereka yang sudah lelah dengan analisa superfisial.</p>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <a href="https://t.me/Alphacrypto_id" target="_blank" class="btn-tg">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.018 9.505c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L6.48 14.473l-2.95-.924c-.642-.196-.655-.642.136-.953l11.526-4.445c.535-.193 1.003.131.37.097z"/></svg>
-              📡 FREE CHANNEL
-            </a>
-            <a href="https://thestrategymoon-crypto.github.io/alphacrypto369/" target="_blank" style="display:inline-flex;align-items:center;gap:10px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;padding:14px 28px;background:linear-gradient(135deg,rgba(0,255,224,0.1),rgba(0,255,136,0.1));color:var(--cyan);text-decoration:none;border:1px solid var(--cyan);transition:box-shadow .2s,transform .1s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));" onmouseover="this.style.boxShadow='0 0 24px rgba(0,255,224,0.4)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
-              ⚡ AKSES PREMIUM / VIP
-            </a>
-          </div>
-        </div>
-        <div class="tiers">
-          <a href="https://t.me/Alphacrypto_id" target="_blank" class="tier tier-free" style="text-decoration:none;cursor:pointer;">
-            <div class="tier-icon">📡</div>
-            <div class="tier-info">
-              <div class="tier-name">FREE CHANNEL</div>
-              <div class="tier-desc">Telegram — Market update & edukasi gratis</div>
-            </div>
-            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:1px;flex-shrink:0;">JOIN →</div>
-          </a>
-          <a href="https://partner.bybit-global.com/b/369global" target="_blank" class="tier tier-premium" style="text-decoration:none;cursor:pointer;">
-            <div class="tier-icon">🟡</div>
-            <div class="tier-info">
-              <div class="tier-name">BYBIT GLOBAL</div>
-              <div class="tier-desc">Daftar & trading via referral AC369 — Fee lebih rendah</div>
-            </div>
-            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--cyan);letter-spacing:1px;flex-shrink:0;">DAFTAR →</div>
-          </a>
-          <a href="https://www.mexc.fm/id-ID/acquisition/custom-sign-up?shareCode=mexc-1JoSs" target="_blank" class="tier tier-vip" style="text-decoration:none;cursor:pointer;">
-            <div class="tier-icon">🔵</div>
-            <div class="tier-info">
-              <div class="tier-name">MEXC GLOBAL</div>
-              <div class="tier-desc">Daftar & trading via referral AC369 — Bonus welcome</div>
-            </div>
-            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:1px;flex-shrink:0;">DAFTAR →</div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div><!-- end page-home -->
-
-<!-- ARTICLE PAGE -->
-<div id="page-article" class="container" style="padding-top:40px; padding-bottom:100px; max-width:820px;">
-  <button onclick="showHome()" style="font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;background:transparent;border:1px solid var(--border);color:var(--text2);padding:8px 16px;cursor:pointer;margin-bottom:28px;transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--cyan)';this.style.borderColor='var(--cyan)'" onmouseout="this.style.color='var(--text2)';this.style.borderColor='var(--border)'">← BACK</button>
-  <div id="article-content"></div>
+<div class="nav">
+  <button class="nb active" onclick="T('analyze')">📊 ANALISIS</button>
+  <button class="nb" onclick="T('scanner')">🔍 SCANNER</button>
+  <button class="nb" onclick="T('tracker')">🎯 TRACKER</button>
+  <button class="nb" onclick="T('content')">✍️ KONTEN</button>
+  <button class="nb" onclick="T('winrate')">📈 WINRATE</button>
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo">ALPHA CRYPTO <span>369</span></div>
-    <div class="footer-note">MARKET INTELLIGENCE TERMINAL<br>alphacrypto369.com</div>
-    <div class="footer-disc">Bukan financial advice. DYOR. Trading crypto mengandung risiko tinggi.</div>
+<!-- TAB ANALISIS -->
+<div id="tab-analyze" class="tab active">
+  <div class="card">
+    <div class="lbl" style="margin-bottom:10px">↗ Masukkan Ticker</div>
+    <div class="inp-row">
+      <input id="ti" type="text" placeholder="BTC / ETH / SOL..." maxlength="10" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')AN()"/>
+      <button class="btn" id="ab" onclick="AN()">▶ ANALISIS</button>
+    </div>
+    <div class="qw" id="qw"></div>
   </div>
-</footer>
+  <div id="la" class="card hidden"><div class="loader"><div class="sw"><div class="sp1"></div><div class="sp2"></div></div><div style="color:var(--g);font-size:9px;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px">Fetching 300 Candle</div><div style="color:var(--dmr);font-size:9px">Binance OHLCV · CoinGecko · Kalkulasi TA...</div></div></div>
+  <div id="ea" class="err hidden"><div style="color:var(--r);font-size:10px;font-weight:700;margin-bottom:4px">⚠ GAGAL FETCH DATA</div><div id="em" style="color:#7a2030;font-size:11px;word-break:break-word;line-height:1.6"></div></div>
+  <div id="res" class="hidden">
+    <div class="card" id="prc"></div>
+    <div id="sgc"></div>
+    <!-- TRADE EXECUTION PANEL -->
+    <div id="sva" class="hidden" style="margin-bottom:11px">
+      <div id="trade-panel" style="background:rgba(9,12,20,.96);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px 20px;backdrop-filter:blur(14px);box-shadow:0 4px 32px rgba(0,0,0,.5)">
+        <div style="font-size:9px;letter-spacing:3px;color:var(--g);text-transform:uppercase;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(0,255,135,.09);display:flex;align-items:center;gap:7px">
+          <span style="width:3px;height:3px;border-radius:50%;background:var(--g);display:inline-block"></span>
+          Eksekusi Trade
+        </div>
 
-<!-- ADMIN OVERLAY -->
-<div class="admin-overlay" id="admin-overlay">
-  <div id="admin-login-box" class="login-box">
-    <div class="login-title">⚡ ADMIN ACCESS</div>
-    <div class="form-group">
-      <label class="form-label">PASSWORD</label>
-      <input type="password" class="form-input" id="admin-pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
-      <div class="login-err" id="login-err">❌ Password salah</div>
+        <!-- Order params display -->
+        <div id="trade-params" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:7px;margin-bottom:14px"></div>
+
+        <!-- Size input -->
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:160px">
+            <div style="font-size:8px;color:var(--dmr);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Ukuran Posisi (USDT)</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="number" id="trade-size" value="100" min="10" step="10"
+                style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:9px 12px;font-size:14px;font-weight:700;color:#e8f0f8;outline:none;font-family:'IBM Plex Mono',monospace;width:100%;max-width:130px"
+                oninput="UTP()"/>
+              <span style="font-size:11px;color:var(--dim)">USDT</span>
+            </div>
+          </div>
+          <!-- Leverage -->
+          <div style="flex:1;min-width:140px">
+            <div style="font-size:8px;color:var(--dmr);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Leverage</div>
+            <div style="display:flex;gap:5px">
+              ${[1,2,3,5,10].map(x=>`<button onclick="setLev(${x})" id="lev-${x}" class="lev-btn" style="padding:6px 10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:6px;color:var(--dim);font-size:10px;font-weight:700;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .15s">${x}x</button>`).join("")}
+            </div>
+          </div>
+        </div>
+
+        <!-- Risk/Reward preview -->
+        <div id="rr-preview" style="background:rgba(255,255,255,.03);border-radius:9px;padding:10px 13px;margin-bottom:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px 12px;text-align:center"></div>
+
+        <!-- Exchange buttons -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px">
+          <button onclick="openBybit('LONG')" id="btn-bybit-long"
+            style="padding:13px 10px;background:linear-gradient(135deg,rgba(0,255,135,.12),rgba(0,200,100,.06));border:1px solid rgba(0,255,135,.4);border-radius:10px;color:#00ff87;font-size:10px;font-weight:700;letter-spacing:1.5px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <span style="font-size:16px">▲</span>
+            <span>BYBIT LONG</span>
+            <span style="font-size:8px;opacity:.6;letter-spacing:1px">Buka di Bybit →</span>
+          </button>
+          <button onclick="openBybit('SHORT')" id="btn-bybit-short"
+            style="padding:13px 10px;background:linear-gradient(135deg,rgba(255,69,96,.12),rgba(200,50,70,.06));border:1px solid rgba(255,69,96,.4);border-radius:10px;color:#ff4560;font-size:10px;font-weight:700;letter-spacing:1.5px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <span style="font-size:16px">▼</span>
+            <span>BYBIT SHORT</span>
+            <span style="font-size:8px;opacity:.6;letter-spacing:1px">Buka di Bybit →</span>
+          </button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px">
+          <button onclick="openBinance('BUY')"
+            style="padding:11px 10px;background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.3);border-radius:10px;color:#f5c518;font-size:10px;font-weight:700;letter-spacing:1.5px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s">
+            ⚡ BINANCE FUTURES BUY
+          </button>
+          <button onclick="openBinance('SELL')"
+            style="padding:11px 10px;background:rgba(245,197,24,.04);border:1px solid rgba(245,197,24,.2);border-radius:10px;color:#9a8a30;font-size:10px;font-weight:700;letter-spacing:1.5px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s">
+            ⚡ BINANCE FUTURES SELL
+          </button>
+        </div>
+
+        <!-- Copy order detail -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px">
+          <button onclick="copyOrder()" style="padding:9px 10px;background:rgba(0,204,255,.07);border:1px solid rgba(0,204,255,.25);border-radius:9px;color:#00ccff;font-size:9px;font-weight:700;letter-spacing:1.5px;cursor:pointer;font-family:'IBM Plex Mono',monospace">📋 COPY ORDER DETAIL</button>
+          <button onclick="SV()" style="padding:9px 10px;background:rgba(0,255,135,.07);border:1px solid rgba(0,255,135,.25);border-radius:9px;color:var(--g);font-size:9px;font-weight:700;letter-spacing:1.5px;cursor:pointer;font-family:'IBM Plex Mono',monospace">＋ SIMPAN KE TRACKER</button>
+        </div>
+
+        <div style="font-size:9px;color:#1e2d3d;text-align:center;letter-spacing:.5px;line-height:1.7">
+          ⚠ Kamu tetap yang approve order di exchange · Selalu gunakan SL · Tidak ada eksekusi otomatis
+        </div>
+      </div>
     </div>
-    <div style="display:flex;gap:12px;margin-top:8px;">
-      <button class="btn-publish" onclick="doLogin()">MASUK</button>
-      <button class="btn-cancel" onclick="closeAdmin()">BATAL</button>
+    <div class="g2"><div class="card" id="src"></div><div class="card" id="mmc"></div></div>
+    <div class="card" id="mac"></div>
+    <div class="scg" id="scg"></div>
+    <div class="card" id="mkc"></div>
+    <div style="text-align:center;padding:8px"><p style="font-size:8px;color:#111d2a;letter-spacing:1.5px;text-transform:uppercase;line-height:1.9">Alpha Crypto 369 · @Alphacrypto_id · Bukan Saran Investasi</p></div>
+  </div>
+</div>
+
+<!-- TAB SCANNER -->
+<div id="tab-scanner" class="tab">
+  <div class="card">
+    <div class="sh">🔍 Market Scanner Pro — Top 100 / 150 Universe</div>
+    <p style="font-size:11px;color:#4b5d6e;margin-bottom:14px;line-height:1.7">
+      Scan otomatis ratusan koin, pre-filter via volume & momentum, lalu TA mendalam — output: <strong style="color:#00ff87">Top 10 LONG</strong> + <strong style="color:#ff4560">Top 5 SHORT</strong> terbaik.
+    </p>
+
+    <!-- Universe selector -->
+    <div style="margin-bottom:12px">
+      <div style="font-size:8px;color:var(--dmr);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Universe Koin</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap" id="universe-btns">
+        <button class="univ-btn" onclick="setUniverse('top10')" data-u="top10" style="padding:6px 12px;border-radius:8px;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--dim)">TOP 10</button>
+        <button class="univ-btn" onclick="setUniverse('top20')" data-u="top20" style="padding:6px 12px;border-radius:8px;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--dim)">TOP 20</button>
+        <button class="univ-btn" onclick="setUniverse('defi')"  data-u="defi"  style="padding:6px 12px;border-radius:8px;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--dim)">DEFI</button>
+        <button class="univ-btn" onclick="setUniverse('l1l2')"  data-u="l1l2"  style="padding:6px 12px;border-radius:8px;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--dim)">L1 / L2</button>
+        <button class="univ-btn" onclick="setUniverse('all')"   data-u="all"   style="padding:6px 12px;border-radius:8px;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--dim)">WATCHLIST (22)</button>
+        <button class="univ-btn active" onclick="setUniverse('top100')" data-u="top100" style="padding:6px 12px;border-radius:8px;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;background:rgba(0,255,135,.12);border:1px solid rgba(0,255,135,.4);color:#00ff87">🔥 TOP 100</button>
+        <button class="univ-btn" onclick="setUniverse('top150')" data-u="top150" style="padding:6px 12px;border-radius:8px;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--dim)">⚡ TOP 150</button>
+      </div>
+    </div>
+
+    <!-- Mode selector: Standard vs Pro -->
+    <div style="margin-bottom:12px">
+      <div style="font-size:8px;color:var(--dmr);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Mode Output</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <label id="mode-lbl-standard" style="display:flex;align-items:flex-start;gap:9px;padding:11px 13px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;cursor:pointer;transition:all .2s">
+          <input type="radio" name="scanmode" value="standard" checked onchange="setScanMode('standard')" style="accent-color:#00ff87;margin-top:2px;flex-shrink:0"/>
+          <div>
+            <div style="font-size:10px;font-weight:700;color:#e8f0f8">Standard Tier</div>
+            <div style="font-size:9px;color:var(--dmr);margin-top:2px">Tier S/A/B seperti sebelumnya</div>
+          </div>
+        </label>
+        <label id="mode-lbl-pro" style="display:flex;align-items:flex-start;gap:9px;padding:11px 13px;background:rgba(0,255,135,.06);border:1px solid rgba(0,255,135,.3);border-radius:10px;cursor:pointer;transition:all .2s">
+          <input type="radio" name="scanmode" value="pro" checked onchange="setScanMode('pro')" style="accent-color:#00ff87;margin-top:2px;flex-shrink:0"/>
+          <div>
+            <div style="font-size:10px;font-weight:700;color:#00ff87">🏆 Pro Ranking</div>
+            <div style="font-size:9px;color:#1e4a2a;margin-top:2px">Top 10 LONG + Top 5 SHORT terbaik</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:8px;color:var(--dmr);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Filter Tambahan</div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:10px;color:#c4ccd6"><input type="checkbox" id="f-minrr" checked style="accent-color:#00ccff"/> R:R ≥ 1.5</label>
+        <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:10px;color:#c4ccd6"><input type="checkbox" id="f-vol" checked style="accent-color:#f5c518"/> Volume Aktif</label>
+        <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:10px;color:#c4ccd6"><input type="checkbox" id="f-excl-stable" checked style="accent-color:#00ff87"/> Exclude Stablecoin</label>
+      </div>
+    </div>
+
+    <button class="btn" id="scan-btn" onclick="startScan()" style="width:100%;padding:14px;font-size:11px;letter-spacing:3px;background:linear-gradient(135deg,rgba(0,255,135,.12),rgba(0,200,255,.06));border-color:rgba(0,255,135,.4)">
+      ⚡ MULAI SCAN OTOMATIS
+    </button>
+  </div>
+
+  <!-- Progress -->
+  <div id="scan-progress" class="card hidden">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+      <div style="font-size:9px;letter-spacing:2px;color:var(--g);text-transform:uppercase" id="scan-status">Scanning...</div>
+      <div style="font-size:9px;color:var(--dmr)" id="scan-phase">Phase 1: Pre-filter</div>
+    </div>
+    <div style="background:rgba(255,255,255,.05);border-radius:4px;height:6px;overflow:hidden;margin-bottom:8px">
+      <div id="scan-bar" style="height:100%;background:linear-gradient(90deg,#00ff87,#00ccff);border-radius:4px;transition:width .3s;width:0%"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--dmr);margin-bottom:10px">
+      <span id="scan-count">0 / 0 koin</span>
+      <span id="scan-found" style="color:#00ff87">0 kandidat kuat</span>
+    </div>
+    <!-- Live feed -->
+    <div id="scan-feed" style="max-height:100px;overflow-y:auto;font-size:9px;color:var(--dmr);line-height:1.8;font-family:'IBM Plex Mono',monospace"></div>
+  </div>
+
+  <!-- PRO RESULTS: Top 10 Long + Top 5 Short -->
+  <div id="pro-results" class="hidden">
+    <!-- Summary bar -->
+    <div id="pro-summary" style="margin-bottom:16px"></div>
+
+    <!-- TOP 10 LONG -->
+    <div id="long-wrap" class="hidden">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="background:linear-gradient(135deg,#00ff87,#00cc6a);border-radius:8px;padding:5px 14px;font-size:11px;font-weight:800;color:#000;letter-spacing:2px">▲ TOP LONG</div>
+        <div style="font-size:10px;color:#00ff87">Setup BELI terkuat — konfluensi tertinggi</div>
+      </div>
+      <div id="long-list"></div>
+    </div>
+
+    <!-- TOP 5 SHORT -->
+    <div id="short-wrap" class="hidden" style="margin-top:8px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="background:linear-gradient(135deg,#ff4560,#cc2240);border-radius:8px;padding:5px 14px;font-size:11px;font-weight:800;color:#fff;letter-spacing:2px">▼ TOP SHORT</div>
+        <div style="font-size:10px;color:#ff4560">Setup JUAL terkuat — konfluensi bearish</div>
+      </div>
+      <div id="short-list"></div>
+    </div>
+
+    <!-- Generate content button -->
+    <div id="gen-content-wrap" class="hidden" style="margin-top:12px">
+      <button onclick="openContentGenerator()" style="width:100%;padding:14px;background:linear-gradient(135deg,rgba(245,197,24,.12),rgba(255,140,0,.06));border:1px solid rgba(245,197,24,.4);border-radius:12px;color:#f5c518;font-size:11px;font-weight:700;letter-spacing:2px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s">
+        ✍️ GENERATE KONTEN TELEGRAM & SOSMED
+      </button>
     </div>
   </div>
 
-  <div id="admin-panel" class="admin-panel" style="display:none;">
-    <div class="admin-title">⚡ PUBLISH ANALISA</div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">KATEGORI</label>
-        <select class="form-select" id="f-cat">
-          <option value="BTC">BTC</option>
-          <option value="ALTCOIN">ALTCOIN</option>
-          <option value="ON-CHAIN">ON-CHAIN</option>
-          <option value="MACRO">MACRO</option>
-        </select>
+  <!-- STANDARD RESULTS (Tier S/A/B) -->
+  <div id="scan-results" class="hidden">
+    <div id="tier-s-wrap" class="hidden">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;margin-top:4px">
+        <div style="background:linear-gradient(135deg,#ffd700,#ff8c00);border-radius:6px;padding:4px 12px;font-size:10px;font-weight:800;color:#000;letter-spacing:2px">TIER S</div>
+        <div style="font-size:10px;color:#ffd700">Setup terbaik — entry sekarang</div>
       </div>
-      <div class="form-group">
-        <label class="form-label">BIAS MARKET</label>
-        <select class="form-select" id="f-bias">
-          <option value="bull">BULLISH</option>
-          <option value="bear">BEARISH</option>
-          <option value="neutral">NEUTRAL</option>
-        </select>
+      <div id="tier-s"></div>
+    </div>
+    <div id="tier-a-wrap" class="hidden">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;margin-top:16px">
+        <div style="background:linear-gradient(135deg,#00ff87,#00cc6a);border-radius:6px;padding:4px 12px;font-size:10px;font-weight:800;color:#000;letter-spacing:2px">TIER A</div>
+        <div style="font-size:10px;color:#00ff87">Potensi tinggi — pantau ketat</div>
       </div>
+      <div id="tier-a"></div>
     </div>
-
-    <div class="form-group">
-      <label class="form-label">JUDUL ANALISA</label>
-      <input type="text" class="form-input" id="f-title" placeholder="Contoh: BTC Weekly Outlook — 12 April 2026">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">EXCERPT (ringkasan 1-2 kalimat)</label>
-      <input type="text" class="form-input" id="f-excerpt" placeholder="Ringkasan singkat yang muncul di card">
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">SUPPORT LEVEL</label>
-        <input type="text" class="form-input" id="f-sup" placeholder="$68,500">
+    <div id="tier-b-wrap" class="hidden">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;margin-top:16px">
+        <div style="background:linear-gradient(135deg,#00ccff,#0088cc);border-radius:6px;padding:4px 12px;font-size:10px;font-weight:800;color:#000;letter-spacing:2px">TIER B</div>
+        <div style="font-size:10px;color:#00ccff">Potensi sedang — tunggu konfirmasi</div>
       </div>
-      <div class="form-group">
-        <label class="form-label">RESISTANCE LEVEL</label>
-        <input type="text" class="form-input" id="f-res" placeholder="$76,000">
-      </div>
+      <div id="tier-b"></div>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">ENTRY ZONE</label>
-        <input type="text" class="form-input" id="f-entry" placeholder="$70,800 – $71,500">
-      </div>
-      <div class="form-group">
-        <label class="form-label">TARGET PRICE</label>
-        <input type="text" class="form-input" id="f-tp" placeholder="$74,500 – $75,500">
-      </div>
+    <div id="tier-skip-wrap" class="hidden" style="margin-top:16px">
+      <div style="font-size:9px;color:var(--dmr);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.04)">⊘ Tidak Memenuhi Kriteria</div>
+      <div id="tier-skip" style="display:flex;gap:6px;flex-wrap:wrap"></div>
     </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">PROBABILITAS BULLISH (%)</label>
-        <input type="number" class="form-input" id="f-pbull" placeholder="55" min="0" max="100">
-      </div>
-      <div class="form-group">
-        <label class="form-label">PROBABILITAS BEARISH (%)</label>
-        <input type="number" class="form-input" id="f-pbear" placeholder="45" min="0" max="100">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">ISI ANALISA LENGKAP (HTML diizinkan)</label>
-      <textarea class="form-textarea" id="f-body" placeholder="Tulis analisa lengkap di sini. Bisa pakai &lt;h2&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;table&gt;, &lt;div class='highlight-box'&gt;..."></textarea>
-    </div>
-
-    <div class="admin-btns">
-      <button class="btn-publish" onclick="publishPost()">✓ PUBLISH</button>
-      <button onclick="exportHTML()" style="font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;padding:12px 20px;background:transparent;color:var(--cyan);border:1px solid var(--cyan);cursor:pointer;transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 0 16px rgba(0,255,224,0.3)'" onmouseout="this.style.boxShadow='none'">⬇ EXPORT HTML</button>
-      <button class="btn-cancel" onclick="closeAdmin()">TUTUP</button>
-    </div>
-
-    <!-- Existing posts -->
-    <div class="admin-posts-list">
-      <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:2px;margin-bottom:16px;">PUBLISHED POSTS</div>
-      <div id="admin-posts-list"></div>
+    <div style="margin-top:16px;padding:10px;text-align:center;font-size:9px;color:var(--dmr)">Tap koin untuk analisis detail · Semua data dari Binance live</div>
+    <div id="gen-content-wrap2" class="hidden" style="margin-top:8px">
+      <button onclick="openContentGenerator()" style="width:100%;padding:14px;background:linear-gradient(135deg,rgba(245,197,24,.12),rgba(255,140,0,.06));border:1px solid rgba(245,197,24,.4);border-radius:12px;color:#f5c518;font-size:11px;font-weight:700;letter-spacing:2px;cursor:pointer;font-family:'IBM Plex Mono',monospace">
+        ✍️ GENERATE KONTEN TELEGRAM & SOSMED
+      </button>
     </div>
   </div>
 </div>
 
+<!-- TAB CONTENT GENERATOR -->
+<div id="tab-content" class="tab">
+  <div class="card">
+    <div class="sh">✍️ Content Generator · Alpha Crypto 369</div>
+    <p style="font-size:11px;color:#4b5d6e;margin-bottom:16px;line-height:1.7">
+      Generate caption siap-posting untuk Telegram publik, story, dan thread — otomatis dari hasil scan. Copy satu klik, posting langsung.
+    </p>
+
+    <!-- Content type selector -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:8px;color:var(--dmr);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Format Konten</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px" id="content-type-grid"></div>
+    </div>
+
+    <!-- Coin selector for content -->
+    <div style="margin-bottom:14px" id="content-coin-selector">
+      <div style="font-size:8px;color:var(--dmr);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Pilih Koin (dari hasil scan)</div>
+      <div id="content-coin-list" style="display:flex;gap:6px;flex-wrap:wrap">
+        <div style="font-size:11px;color:var(--dmr)">Jalankan scanner dulu untuk memilih koin.</div>
+      </div>
+    </div>
+
+    <!-- Tone selector -->
+    <div style="margin-bottom:16px">
+      <div style="font-size:8px;color:var(--dmr);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Tone Konten</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="tone-btn active" data-tone="institutional" onclick="setTone('institutional')" style="padding:6px 12px;border-radius:8px;font-size:9px;font-weight:700;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;background:rgba(0,255,135,.12);border:1px solid rgba(0,255,135,.4);color:#00ff87">Institusional</button>
+        <button class="tone-btn" data-tone="casual" onclick="setTone('casual')" style="padding:6px 12px;border-radius:8px;font-size:9px;font-weight:700;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--dim)">Santai</button>
+        <button class="tone-btn" data-tone="hype" onclick="setTone('hype')" style="padding:6px 12px;border-radius:8px;font-size:9px;font-weight:700;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--dim)">Hype</button>
+        <button class="tone-btn" data-tone="educational" onclick="setTone('educational')" style="padding:6px 12px;border-radius:8px;font-size:9px;font-weight:700;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--dim)">Edukatif</button>
+      </div>
+    </div>
+
+    <button onclick="generateContent()" id="gen-btn" style="width:100%;padding:13px;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.35);border-radius:10px;color:#f5c518;font-size:10px;font-weight:700;letter-spacing:2.5px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;margin-bottom:14px"
+      onmouseover="this.style.background='rgba(245,197,24,.2)'" onmouseout="this.style.background='rgba(245,197,24,.1)'">
+      ⚡ GENERATE SEKARANG
+    </button>
+  </div>
+
+  <!-- Generated content output -->
+  <div id="content-output" class="hidden"></div>
+</div>
+
+<!-- TAB TRACKER -->
+<div id="tab-tracker" class="tab">
+  <div class="card">
+    <div class="sh">🎯 Signal Aktif & Closed</div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+      <button class="btn" style="font-size:9px;padding:7px 13px" onclick="RF()">↺ Update Harga Live</button>
+      <button class="btn btn-r" style="font-size:9px;padding:7px 13px" onclick="CC()">✕ Hapus Semua Closed</button>
+    </div>
+    <div id="ts" style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:14px"></div>
+    <div id="tl"></div>
+  </div>
+</div>
+
+<!-- TAB WINRATE -->
+<div id="tab-winrate" class="tab">
+  <div class="card">
+    <div class="sh">📈 Monthly Winrate Report</div>
+    <div id="wo" style="margin-bottom:14px"></div>
+    <div id="wm"></div>
+    <div id="wb" style="margin-top:13px"></div>
+  </div>
+</div>
+
+</div>
 <script>
-// ── DATA STORE ──────────────────────────────────────────────────────────────
-const ADMIN_PASS = 'alpha369'; // ganti sesuai keinginan
+const TICKERS=["BTC","ETH","SOL","BNB","XRP","AVAX","ARB","OP","LINK","DOT","HYPE","SUI","WIF","PEPE","TIA","RENDER","WLD","INJ","ATOM","NEAR","DOGE","ADA"];
+const CGID={BTC:"bitcoin",ETH:"ethereum",SOL:"solana",BNB:"binancecoin",XRP:"ripple",AVAX:"avalanche-2",ARB:"arbitrum",OP:"optimism",LINK:"chainlink",DOT:"polkadot",HYPE:"hyperliquid",SUI:"sui",WIF:"dogwifhat",PEPE:"pepe",TIA:"celestia",RENDER:"render-token",WLD:"worldcoin-wld",INJ:"injective-protocol",ATOM:"cosmos",NEAR:"near",DOGE:"dogecoin",ADA:"cardano"};
+const SEC={BTC:"Store of Value",ETH:"Smart Contract L1",SOL:"High-Perf L1",BNB:"Exchange Token",XRP:"Payment Network",AVAX:"Smart Contract L1",ARB:"Ethereum L2",OP:"Ethereum L2",LINK:"Oracle Network",DOT:"Cross-Chain",HYPE:"Perpetual DEX",SUI:"High-Perf L1",WIF:"Meme Coin",PEPE:"Meme Coin",TIA:"Data Availability",RENDER:"Decentralized GPU",WLD:"Identity Protocol",INJ:"DeFi L1",ATOM:"IBC Ecosystem",NEAR:"AI L1",DOGE:"Meme Coin",ADA:"Smart Contract L1"};
+const SC={BELI:{c:"#00ff87",bg:"rgba(0,255,135,.07)",bd:"rgba(0,255,135,.22)",gw:"rgba(0,255,135,.18)",ic:"▲"},TAHAN:{c:"#f5c518",bg:"rgba(245,197,24,.07)",bd:"rgba(245,197,24,.22)",gw:"rgba(245,197,24,.18)",ic:"◆"},JUAL:{c:"#ff4560",bg:"rgba(255,69,96,.07)",bd:"rgba(255,69,96,.22)",gw:"rgba(255,69,96,.18)",ic:"▼"}};
+let CSD=null;
 
-const SAMPLE_POSTS = [
-  {
-    id: 'sample-1',
-    cat: 'BTC',
-    bias: 'bull',
-    title: 'BTC/USDT Weekly Outlook — 12 April 2026',
-    excerpt: 'Struktur market dalam fase recovery cautious bullish. Smart money akumulasi terkonfirmasi, namun overhead ETF supply di $84K tetap jadi hambatan utama.',
-    date: '12 APR 2026',
-    sup: '$68,500 – $70,000',
-    res: '$74,500 – $76,000',
-    entry: '$70,800 – $71,500',
-    tp: '$74,500 – $75,500',
-    pbull: 55,
-    pbear: 45,
-    featured: true,
-    body: `
-      <h2>MARKET OVERVIEW</h2>
-      <p>BTC saat ini diperdagangkan di kisaran <strong>$73,000</strong> setelah recovery dari low ~$58K pada Februari 2026. Meskipun momentum jangka pendek membaik, market belum keluar dari zona distribusi makro pasca-ATH $126K.</p>
-      <div class="highlight-box">⚡ PRIMARY BIAS: CAUTIOUS BULLISH — Skenario sweep sell-side ke $70.8K sebelum rally ke $74.5K+</div>
+// Quick buttons
+const qw=document.getElementById('qw');
+TICKERS.forEach(t=>{const b=document.createElement('button');b.className='qb';b.textContent=t;b.onclick=()=>{document.getElementById('ti').value=t;AN(t);};qw.appendChild(b);});
 
-      <h2>TECHNICAL ANALYSIS</h2>
-      <p><strong>Daily:</strong> BTC sedang membentuk Higher Low setelah bottom di area $58K–$60K. Perlu close di atas $76,500 untuk konfirmasi BOS bullish secara struktural. Key resistance berada di <strong>$74,500–$76,000</strong> — zona OB + FVG dari leg down Oktober–November 2025.</p>
-      <p><strong>4H:</strong> BOS bullish terkonfirmasi di $71,000. Bullish OB di $70,200–$71,000 harus dipertahankan sebagai support. FVG aktif di $72,500–$73,800. Buy-side liquidity pool terkumpul di equal highs $74,500–$75,200.</p>
-      <p><strong>1H:</strong> Micro structure bullish. Sell-side liquidity terkumpul di bawah $70,800 sebagai area manipulasi sebelum naik. ICT Kill Zone utama: London Open 14:00–16:00 WIB dan NY Open 19:30–21:30 WIB.</p>
-
-      <h2>ON-CHAIN DATA</h2>
-      <p><strong>Exchange Reserves:</strong> Turun ke 9-year low — 2.21 juta BTC. Supply shock sedang dibangun secara struktural.</p>
-      <p><strong>MVRV Z-Score:</strong> 2.31 — mid-cycle positioning. Jauh dari zona distribusi puncak (>3.5).</p>
-      <p><strong>SOPR:</strong> 1.08 — profit taking moderat tanpa pola distribusi agresif.</p>
-      <p><strong>Funding Rate:</strong> Negatif di Binance perpetuals — setup short squeeze jika price naik impulsif.</p>
-
-      <h2>TRADING PLAN</h2>
-      <table>
-        <tr><th>PARAMETER</th><th>LEVEL</th></tr>
-        <tr><td>Entry Zone</td><td><strong style="color:var(--cyan)">$70,800 – $71,500</strong></td></tr>
-        <tr><td>Stop Loss</td><td><strong style="color:var(--red)">$69,300</strong></td></tr>
-        <tr><td>Target 1</td><td><strong style="color:var(--green)">$73,500 – $74,000</strong></td></tr>
-        <tr><td>Target 2</td><td><strong style="color:var(--green)">$75,000 – $75,500</strong></td></tr>
-        <tr><td>Target 3</td><td><strong style="color:var(--gold)">$77,500 – $78,000</strong></td></tr>
-        <tr><td>R:R Ratio</td><td>1:2 ke T1 / 1:4.5 ke T3</td></tr>
-      </table>
-
-      <h2>KESIMPULAN</h2>
-      <p>BTC dalam fase recovery yang valid secara on-chain, namun belum ada catalyst cukup kuat untuk menerobos $76K+ dalam 7 hari ke depan. Prioritas: sweep sell-side di $70.8K → long → target $74.5K.</p>
-      <div class="highlight-box">⚠️ WARNING: Volatilitas intraday bisa $2,000–$3,000 dalam hitungan jam. Gunakan maksimum 1–2% risk per trade. Bukan financial advice.</div>
-    `
-  }
-];
-
-// ── PERMANENT DATA SYSTEM ────────────────────────────────────────────────────
-// Data tersimpan langsung di file ini — tidak pakai localStorage
-// Setelah publish analisa baru di admin: klik EXPORT HTML → upload ke GitHub
-let POSTS_DATA = [...SAMPLE_POSTS];
-function getPosts() { return POSTS_DATA; }
-function savePosts(posts) { POSTS_DATA = posts; }
-
-// ── TICKER ──────────────────────────────────────────────────────────────────
-const tickerData = [
-  { sym:'BTC/USDT', val:'$73,071', chg:'+1.23%', up:true },
-  { sym:'ETH/USDT', val:'$2,180', chg:'-0.45%', up:false },
-  { sym:'BNB/USDT', val:'$583', chg:'+0.87%', up:true },
-  { sym:'SOL/USDT', val:'$148', chg:'+2.11%', up:true },
-  { sym:'XRP/USDT', val:'$0.524', chg:'-1.02%', up:false },
-  { sym:'ADA/USDT', val:'$0.72', chg:'+0.33%', up:true },
-  { sym:'DOGE/USDT', val:'$0.167', chg:'-0.88%', up:false },
-  { sym:'AVAX/USDT', val:'$34.2', chg:'+1.55%', up:true },
-  { sym:'LINK/USDT', val:'$14.8', chg:'+0.92%', up:true },
-  { sym:'DOT/USDT', val:'$6.43', chg:'-0.61%', up:false },
-];
-
-function buildTicker() {
-  const wrap = document.getElementById('ticker-wrap');
-  const buildItems = () => tickerData.map(t =>
-    `<div class="tick-item">
-      <span class="tick-sym">${t.sym}</span>
-      <span class="tick-val">${t.val}</span>
-      <span class="tick-chg ${t.up?'up':'dn'}">${t.chg}</span>
-    </div>`
-  ).join('');
-  wrap.innerHTML = `<div class="ticker-inner">${buildItems()}${buildItems()}</div>`;
+// Tab switch
+function T(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  const idx={analyze:0,scanner:1,tracker:2,content:3,winrate:4}[tab];
+  if(idx!==undefined) document.querySelectorAll('.nb')[idx].classList.add('active');
+  if(tab==='tracker')RT();
+  if(tab==='winrate')RW();
+  if(tab==='content')initContentTab();
 }
 
-// ── CLOCK ───────────────────────────────────────────────────────────────────
-function updateClock() {
-  const now = new Date();
-  const wib = new Date(now.getTime() + (7 * 3600000));
-  const h = String(wib.getUTCHours()).padStart(2,'0');
-  const m = String(wib.getUTCMinutes()).padStart(2,'0');
-  const s = String(wib.getUTCSeconds()).padStart(2,'0');
-  document.getElementById('clock-status').textContent = `${h}:${m}:${s} WIB`;
+// TA
+function sma(a,p){return a.map((_,i)=>i<p-1?null:a.slice(i-p+1,i+1).reduce((x,y)=>x+y,0)/p)}
+function ema(a,p){const k=2/(p+1);let e=null,r=[];a.forEach(v=>{if(v==null){r.push(null);return;}e=e===null?v:v*k+e*(1-k);r.push(e);});return r}
+function rsi(c,p=14){if(c.length<p+1)return null;let g=0,l=0;for(let i=1;i<=p;i++){const d=c[i]-c[i-1];d>0?g+=d:l-=d;}let ag=g/p,al=l/p;for(let i=p+1;i<c.length;i++){const d=c[i]-c[i-1];ag=(ag*(p-1)+Math.max(d,0))/p;al=(al*(p-1)+Math.max(-d,0))/p;}return al===0?100:100-100/(1+ag/al)}
+function macd(c){const e12=ema(c,12),e26=ema(c,26);const ml=e12.map((v,i)=>v!=null&&e26[i]!=null?v-e26[i]:null).filter(v=>v!=null);const sg=ema(ml,9);return{h:ml[ml.length-1]!=null&&sg[sg.length-1]!=null?ml[ml.length-1]-sg[sg.length-1]:null,ph:ml.length>1&&sg.length>1?ml[ml.length-2]-sg[sg.length-2]:null}}
+function lst(a){return a.filter(v=>v!=null).slice(-1)[0]}
+function stRSI(c){
+  const ra=[];for(let i=14;i<c.length;i++)ra.push(rsi(c.slice(i-14,i+1),14));
+  const st=[];for(let i=13;i<ra.length;i++){const s=ra.slice(i-13,i+1),mn=Math.min(...s),mx=Math.max(...s);st.push(mx===mn?50:(ra[i]-mn)/(mx-mn)*100);}
+  const ka=sma(st,3).filter(v=>v!=null),da=sma(ka,3).filter(v=>v!=null);
+  return{k:ka[ka.length-1],d:da[da.length-1]}
 }
-setInterval(updateClock, 1000);
-
-document.getElementById('btc-status').textContent = 'BTC: $73,071 (+1.23%)';
-document.getElementById('dominance-status').textContent = 'DOM: 62.4%';
-
-// ── RENDER POSTS ─────────────────────────────────────────────────────────────
-function getCatClass(cat) {
-  const m = {'BTC':'cat-btc','ALTCOIN':'cat-altcoin','ON-CHAIN':'cat-onchain','MACRO':'cat-macro'};
-  return m[cat] || 'cat-btc';
+function atrF(hi,lo,cl,p=14){const tr=hi.map((h,i)=>i===0?h-lo[i]:Math.max(h-lo[i],Math.abs(h-cl[i-1]),Math.abs(lo[i]-cl[i-1])));return lst(sma(tr,p))}
+function bb(c){const ma=sma(c,20);const bd=c.map((_,i)=>{if(i<19)return null;const s=c.slice(i-19,i+1),m=ma[i],sd=Math.sqrt(s.reduce((a,v)=>a+(v-m)**2,0)/20);return{u:m+2*sd,m,l:m-2*sd};}).filter(v=>v!=null);return bd[bd.length-1]}
+function findSR(hi,lo,price){
+  const pv=[];for(let i=2;i<hi.length-2;i++){if(hi[i]>hi[i-1]&&hi[i]>hi[i-2]&&hi[i]>hi[i+1]&&hi[i]>hi[i+2])pv.push({price:hi[i],t:"R"});if(lo[i]<lo[i-1]&&lo[i]<lo[i-2]&&lo[i]<lo[i+1]&&lo[i]<lo[i+2])pv.push({price:lo[i],t:"S"});}
+  const us=new Set(),cl2=[];pv.forEach((p2,i)=>{if(us.has(i))return;const g=[p2];pv.forEach((q,j)=>{if(i!==j&&!us.has(j)&&Math.abs(p2.price-q.price)/p2.price<0.02){g.push(q);us.add(j);}});us.add(i);cl2.push({price:g.reduce((a,b)=>a+b.price,0)/g.length,t:p2.t,s:g.length});});
+  let sp=cl2.filter(z=>z.price<price*1.01).sort((a,b)=>b.price-a.price).slice(0,3);
+  let rs=cl2.filter(z=>z.price>price*0.99).sort((a,b)=>a.price-b.price).slice(0,3);
+  while(sp.length<3)sp.push({price:price*(0.88-sp.length*0.07),t:"S",s:1});
+  while(rs.length<3)rs.push({price:price*(1.08+rs.length*0.07),t:"R",s:1});
+  return{sp:sp.slice(0,3),rs:rs.slice(0,3)}
 }
+function volA(v){const avg=v.slice(-20).reduce((a,b)=>a+b,0)/20,r=v.slice(-5).reduce((a,b)=>a+b,0)/5/avg;return r>1.5?"Volume surge ✓":r>1.1?"Di atas rata-rata":r<0.6?"Volume kering":"Normal"}
+function strA(c,hi,lo){
+  const lh=Math.max(...hi.slice(-3)),pvh=Math.max(...hi.slice(-6,-3)),ll=Math.min(...lo.slice(-3)),pvl=Math.min(...lo.slice(-6,-3));
+  const hh=lh>pvh&&ll>pvl?"HH/HL — uptrend valid":lh<pvh&&ll<pvl?"LH/LL — downtrend":"Transisi";
+  const n=c.length,r5h=Math.max(...hi.slice(-10,-5)),r5l=Math.min(...lo.slice(-10,-5));
+  const bs=c[n-1]>r5h?"BOS Bullish ✓":c[n-1]<r5l?"BOS Bearish ✗":c[n-1]>c[n-5]*1.02?"CHoCH Bullish":"Sideways";
+  return{hh,bs}
+}
+function score({rD,rW,st,md,price,m20,m50,m200,e50,e200,bbd,ch}){
+  const F=[];
+  if(rD<30)F.push({n:"RSI OS",v:2,b:1});else if(rD<45)F.push({n:"RSI Lemah",v:1,b:1});else if(rD>75)F.push({n:"RSI OB",v:2,b:0});else if(rD>65)F.push({n:"RSI Tinggi",v:1,b:0});
+  if(rW){if(rW<35)F.push({n:"RSI-W OS",v:2,b:1});else if(rW>70)F.push({n:"RSI-W OB",v:2,b:0});}
+  if(st.k&&st.d){if(st.k<20&&st.d<20)F.push({n:"StRSI OS",v:1.5,b:1});if(st.k>80&&st.d>80)F.push({n:"StRSI OB",v:1.5,b:0});if(st.k>st.d&&st.k<50)F.push({n:"StRSI X+",v:1,b:1});if(st.k<st.d&&st.k>50)F.push({n:"StRSI X-",v:1,b:0});}
+  if(price>m20)F.push({n:"P>MA20",v:.5,b:1});
+  if(price>m50)F.push({n:"P>MA50",v:1,b:1});else F.push({n:"P<MA50",v:1,b:0});
+  if(m200){if(price>m200)F.push({n:"P>MA200",v:2,b:1});else F.push({n:"P<MA200",v:2,b:0});}
+  if(e200){if(e50>e200)F.push({n:"Golden X",v:2,b:1});else F.push({n:"Death X",v:2,b:0});}
+  if(md.h>0&&md.ph<=0)F.push({n:"MACD X+",v:1.5,b:1});else if(md.h>0)F.push({n:"MACD+",v:.5,b:1});
+  if(md.h<0&&md.ph>=0)F.push({n:"MACD X-",v:1.5,b:0});else if(md.h<0)F.push({n:"MACD-",v:.5,b:0});
+  if(bbd){if(price<bbd.l)F.push({n:"BB OS",v:1,b:1});if(price>bbd.u)F.push({n:"BB OB",v:1,b:0});}
+  if(ch>5)F.push({n:"Mom+",v:.5,b:1});if(ch<-5)F.push({n:"Mom-",v:.5,b:0});
+  const bS=F.filter(f=>f.b).reduce((a,f)=>a+f.v,0),rS=F.filter(f=>!f.b).reduce((a,f)=>a+f.v,0);
+  const tot=F.reduce((a,f)=>a+f.v,0)||1,net=bS-rS;
+  const conf=Math.min(9,Math.max(4,Math.round(Math.abs(net)*.7+4)));
+  const cp=Math.round(Math.max(bS,rS)/tot*100);
+  let sig,rsn;
+  if(net>=3){sig="BELI";const tp=F.filter(f=>f.b).sort((a,b)=>b.v-a.v).slice(0,3).map(f=>f.n).join(", ");rsn=`${tp}. ${F.filter(f=>f.b).length} faktor bullish. Konfluensi ${cp}%.`;}
+  else if(net<=-3){sig="JUAL";const tp=F.filter(f=>!f.b).sort((a,b)=>b.v-a.v).slice(0,3).map(f=>f.n).join(", ");rsn=`${tp}. ${F.filter(f=>!f.b).length} faktor bearish. Konfluensi ${cp}%.`;}
+  else{sig="TAHAN";rsn=`Mixed: ${F.filter(f=>f.b).length}B vs ${F.filter(f=>!f.b).length}R. RSI ${Math.round(rD)} netral.`;}
+  return{sig,conf,rsn,bN:F.filter(f=>f.b).length,rN:F.filter(f=>!f.b).length,cp}
+}
+function fmt(n){if(!n&&n!==0)return"N/A";if(n>=1e9)return"$"+(n/1e9).toFixed(2)+"B";if(n>=1e6)return"$"+(n/1e6).toFixed(2)+"M";if(n>=1000)return"$"+n.toLocaleString("en-US",{maximumFractionDigits:2});if(n>=1)return"$"+n.toFixed(2);if(n>=0.01)return"$"+n.toFixed(4);return"$"+n.toFixed(6)}
+function pct(n){return(n>=0?"+":"")+n.toFixed(2)+"%"}
+function R(l,v,c="",m=false){return`<div class="row"><span class="rl">${l}</span><span class="rv${m?" mono":""}" style="color:${c||"var(--txt)"}">${v||"—"}</span></div>`}
+function ZR(l,p,t,s){const c=t==="S"?"var(--g)":"var(--r)";const ss=s>=3?"●●●":s===2?"●●○":"●○○";return`<div class="zr"><span class="zt" style="color:${c}">${t}${l}</span><span class="zp">${fmt(p)}</span><span style="font-size:9px;opacity:.5;color:${c}">${ss}</span></div>`}
+function MI(l,a,v){const c=a?"var(--g)":"var(--r)";return`<div class="mai"><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;margin-bottom:4px;text-transform:uppercase">${l}</div><div style="display:flex;align-items:center;margin-bottom:2px"><span style="width:6px;height:6px;border-radius:50%;background:${c};margin-right:5px;display:inline-block;box-shadow:${a?"0 0 5px rgba(0,255,135,.5)":"none"}"></span><span style="font-size:9px;font-weight:700;color:${c}">${a?"Di Atas":"Di Bawah"}</span></div><div style="font-size:9px;color:var(--dim);font-family:'IBM Plex Mono',monospace">${v?fmt(v):"—"}</div></div>`}
+function $(i){return document.getElementById(i)}
+function sh(i){$(i).classList.remove('hidden')}
+function hd(i){$(i).classList.add('hidden')}
 
-function renderPosts(filter='all') {
-  const posts = getPosts();
-  const grid = document.getElementById('posts-grid');
-  const empty = document.getElementById('empty-state');
+// ANALYZE
+async function AN(sym){
+  const tk=(sym||$('ti').value).toUpperCase().replace(/\s|USDT$/gi,"").trim();
+  if(!tk)return;
+  $('ti').value=tk;$('ab').disabled=true;
+  hd('res');hd('ea');hd('sva');sh('la');
+  try{
+    const kR=await fetch(`https://api.binance.com/api/v3/klines?symbol=${tk}USDT&interval=1d&limit=300`);
+    if(!kR.ok)throw new Error(`"${tk}" tidak ditemukan di Binance.`);
+    const kl=await kR.json();
+    if(!Array.isArray(kl)||kl.length<50)throw new Error("Data candle tidak cukup.");
+    const hi=kl.map(k=>+k[2]),lo=kl.map(k=>+k[3]),cl=kl.map(k=>+k[4]),vol=kl.map(k=>+k[5]);
+    const price=cl[cl.length-1];
 
-  const filtered = filter === 'all' ? posts : posts.filter(p => p.cat === filter);
+    let wC=[],wH=[],wL=[];
+    try{const wR=await fetch(`https://api.binance.com/api/v3/klines?symbol=${tk}USDT&interval=1w&limit=60`);if(wR.ok){const wk=await wR.json();wC=wk.map(k=>+k[4]);wH=wk.map(k=>+k[2]);wL=wk.map(k=>+k[3]);}}catch(_){}
+    if(wC.length<10){wC=cl.filter((_,i)=>i%7===0);wH=hi.filter((_,i)=>i%7===0);wL=lo.filter((_,i)=>i%7===0);}
 
-  document.getElementById('stat-posts').textContent = posts.length;
+    const t2=await(await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${tk}USDT`)).json();
+    const ch24=+t2.priceChangePercent,hi24=+t2.highPrice,lo24=+t2.lowPrice,v24=+t2.quoteVolume;
 
-  if (filtered.length === 0) {
-    grid.innerHTML = '';
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
+    let mcap=null,ch7d=null,cName=tk;
+    try{const cg=await(await fetch(`https://api.coingecko.com/api/v3/coins/${CGID[tk]||tk}?localization=false&tickers=false&community_data=false&developer_data=false`)).json();mcap=cg.market_data?.market_cap?.usd;ch7d=cg.market_data?.price_change_percentage_7d;cName=cg.name||tk;}catch(_){}
 
-  grid.innerHTML = filtered.map((p, i) => {
-    const isFeatured = p.featured && i === 0 && filter === 'all';
-    const biasLabel = p.bias === 'bull' ? 'BULLISH' : p.bias === 'bear' ? 'BEARISH' : 'NEUTRAL';
+    const m20=lst(sma(cl,20)),m50=lst(sma(cl,50)),m200=lst(sma(cl,200));
+    const e50=lst(ema(cl,50)),e200=lst(ema(cl,200));
+    const wm20=lst(sma(wC,20));
+    const rD=rsi(cl.slice(-50),14),rW=wC.length>=15?rsi(wC.slice(-30),14):null;
+    const st=stRSI(cl);
+    const aV=atrF(hi,lo,cl,14);const aP=(aV/price*100).toFixed(2);
+    const bbd=bb(cl);
+    const bbP=bbd?((price-bbd.l)/(bbd.u-bbd.l)*100).toFixed(1):null;
+    const bbS=bbd?(price>bbd.u?"Di atas upper band":price<bbd.l?"Di bawah lower band":bbP>70?"Mendekati upper":"Netral / Mendekati lower"):"—";
+    const md=macd(cl);
+    const {sp,rs}=findSR(hi,lo,price);
+    const vS=volA(vol);const{hh,bs}=strA(cl,hi,lo);
+    const aM20=price>m20,aM50=price>m50,aM200=m200?price>m200:null;
+    const aE50=price>e50,aE200=e200?price>e200:null;
+    const gc=e200?e50>e200:null;
+    const trend=aM50&&aM200?"BULLISH":(!aM50&&aM200===false)?"BEARISH":"SIDEWAYS";
+    const tC=trend==="BULLISH"?"#00ff87":trend==="BEARISH"?"#ff4560":"#f5c518";
+    const rDL=rD>70?"Overbought — waspadai pullback":rD<30?"Oversold — potensi bounce":rD<45?"Zona lemah":"Netral";
+    let mdL="—";if(md.h!=null){if(md.h>0&&md.ph<=0)mdL="Bullish crossover ✓";else if(md.h>0)mdL="Histogram positif";else if(md.h<0&&md.ph>=0)mdL="Bearish crossover ✗";else mdL="Histogram negatif";}
+    const stK=st.k?Math.round(st.k):null,stD=st.d?Math.round(st.d):null;
+    const stS=stK?(stK<20?"Oversold zone":stK>80?"Overbought zone":stK>stD?"K>D bullish":"K<D bearish"):"—";
+    const{sig,conf,rsn,bN,rN,cp}=score({rD,rW:rW||50,st,md,price,m20,m50,m200,e50,e200,bbd,ch:ch24});
+    const sc=SC[sig];
 
-    if (isFeatured) {
-      return `<div class="post-card featured fade-in" onclick="openArticle('${p.id}')">
-        <div>
-          <div class="post-meta">
-            <span class="post-cat ${getCatClass(p.cat)}">${p.cat}</span>
-            <span class="post-date">${p.date}</span>
-          </div>
-          <div class="post-title">${p.title}</div>
-          <div class="post-excerpt">${p.excerpt}</div>
-          <div class="post-footer">
-            <div class="post-bias bias-${p.bias}"><div class="dot"></div> ${biasLabel}</div>
-            <div class="post-read">BACA SELENGKAPNYA →</div>
-          </div>
-        </div>
-        <div class="featured-right">
-          <div class="probability-bar">
-            <div class="prob-label">PROBABILITY BULLISH</div>
-            <div class="bar-track"><div class="bar-fill bar-bull" style="width:${p.pbull}%"></div></div>
-            <div class="bar-meta"><span>0%</span><span style="color:var(--green)">${p.pbull}%</span><span>100%</span></div>
-          </div>
-          <div class="probability-bar">
-            <div class="prob-label">PROBABILITY BEARISH</div>
-            <div class="bar-track"><div class="bar-fill bar-bear" style="width:${p.pbear}%"></div></div>
-            <div class="bar-meta"><span>0%</span><span style="color:var(--red)">${p.pbear}%</span><span>100%</span></div>
-          </div>
-          <div class="key-levels">
-            <div class="level-box">
-              <div class="level-tag">RESISTANCE</div>
-              <div class="level-val lv-res">${p.res||'—'}</div>
-            </div>
-            <div class="level-box">
-              <div class="level-tag">SUPPORT</div>
-              <div class="level-val lv-sup">${p.sup||'—'}</div>
-            </div>
-            <div class="level-box">
-              <div class="level-tag">ENTRY</div>
-              <div class="level-val lv-entry">${p.entry||'—'}</div>
-            </div>
-            <div class="level-box">
-              <div class="level-tag">TARGET</div>
-              <div class="level-val lv-tp">${p.tp||'—'}</div>
-            </div>
-          </div>
-        </div>
-      </div>`;
-    }
+    // ── SL: bawah S1 dengan buffer 0.5%, minimal ATR×1 dari entry ──
+    const s1Price = sp[0]?.price;
+    const s2Price = sp[1]?.price;
+    const slFromS1 = s1Price ? s1Price * 0.995 : null;
+    const slFromATR = price - (aV * 1.5);
+    // Pilih SL yang lebih dekat ke entry tapi tidak lebih dari ATR×3
+    let sl = slFromS1 || slFromATR;
+    if(sl > price * 0.99) sl = price * 0.97;       // minimal 3% di bawah entry
+    if(sl < price - aV*3) sl = price - aV*3;        // maksimal ATR×3 (tidak terlalu jauh)
+    const riskAmt = price - sl;                      // jarak risk dalam USD
 
-    return `<div class="post-card fade-in" onclick="openArticle('${p.id}')">
-      <div class="post-meta">
-        <span class="post-cat ${getCatClass(p.cat)}">${p.cat}</span>
-        <span class="post-date">${p.date}</span>
+    // ── TP: berbasis R:R minimum, dikombinasikan dengan resistance level ──
+    // TP1 = min R:R 1:1.5 ATAU resistance terdekat yang lebih dari 1.5× risk
+    const minTP1 = price + riskAmt * 1.5;
+    const minTP2 = price + riskAmt * 2.5;
+    const minTP3 = price + riskAmt * 4.0;
+
+    // Ambil resistance yang berada di atas minimum R:R
+    const validR1 = rs.find(r => r.price >= minTP1);
+    const validR2 = rs.find(r => r.price >= minTP2);
+    const validR3 = rs.find(r => r.price >= minTP3);
+
+    const tp1 = validR1?.price || minTP1;
+    const tp2 = validR2?.price || minTP2;
+    const tp3 = validR3?.price || minTP3;
+
+    const rr = (tp1 - price) / riskAmt;
+    const rrFmt = rr > 0 ? rr.toFixed(2) : "—";
+    const now=new Date().toLocaleString("id-ID");
+
+    CSD={id:Date.now(),ticker:tk,coinName:cName,sig,conf,cp,price,entry:price,sl,tp1,tp2,tp3,rD:Math.round(rD),rW:rW?Math.round(rW):null,trend,timestamp:Date.now(),status:"active",currentPrice:price,hitLevel:null,hitPrice:null,hitTime:null};
+
+    $('prc').innerHTML=`<div style="display:flex;align-items:flex-start;gap:13px;flex-wrap:wrap">
+      <div style="flex:1;min-width:150px">
+        <div class="lbl" style="margin-bottom:3px">${SEC[tk]||"Crypto Asset"}</div>
+        <div style="font-size:19px;font-weight:700;color:#e8f0f8;letter-spacing:-.5px;margin-bottom:5px">${cName} <span style="color:var(--dim);font-weight:400;font-size:13px">/ USDT</span></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag">${tk}</span><span class="tag"><span class="livdot"></span>Live · ${now}</span></div>
       </div>
-      <div class="post-title">${p.title}</div>
-      <div class="post-excerpt">${p.excerpt}</div>
-      <div class="post-footer">
-        <div class="post-bias bias-${p.bias}"><div class="dot"></div> ${biasLabel}</div>
-        <div class="post-read">BACA →</div>
+      <div style="text-align:right">
+        <div style="font-size:24px;font-weight:700;color:#e8f0f8;letter-spacing:-1px;font-family:'IBM Plex Mono',monospace">${fmt(price)}</div>
+        <div style="font-size:13px;font-weight:700;color:${ch24>=0?"#00ff87":"#ff4560"};margin-top:2px">${pct(ch24)} 24h</div>
+        ${ch7d!=null?`<div style="font-size:10px;color:${ch7d>=0?"#00c96a":"#d93848"};margin-top:1px">${pct(ch7d)} 7d</div>`:""}
+      </div>
+      <div style="border-left:1px solid rgba(255,255,255,.05);padding-left:13px;text-align:right;flex-shrink:0">
+        <div class="lbl">Tren</div>
+        <div style="font-size:13px;font-weight:800;color:${tC};letter-spacing:2px;margin-top:3px">${trend}</div>
+        <div style="font-size:9px;color:var(--dmr);margin-top:6px">H: ${fmt(hi24)}</div>
+        <div style="font-size:9px;color:var(--dmr)">L: ${fmt(lo24)}</div>
       </div>
     </div>`;
-  }).join('');
+
+    $('sgc').innerHTML=`<div class="sig-card" style="background:${sc.bg};border:1px solid ${sc.bd};box-shadow:0 0 28px ${sc.gw}">
+      <div class="sig-ico" style="border:1px solid ${sc.bd};color:${sc.c};font-size:20px">${sc.ic}</div>
+      <div style="flex:1;min-width:120px">
+        <div style="font-size:8px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:2px">Sinyal Alpha Crypto 369</div>
+        <div style="font-size:24px;font-weight:800;letter-spacing:4px;color:${sc.c};line-height:1">${sig}</div>
+        <div style="font-size:9px;color:${sc.c};opacity:.65;margin-top:2px">Keyakinan: ${conf}/10</div>
+        <div style="display:flex;gap:8px;margin-top:4px"><span style="font-size:9px;color:#00ff87">▲ ${bN}</span><span style="font-size:9px;color:#ff4560">▼ ${rN}</span></div>
+        <div class="cbr"><div style="height:100%;width:${cp}%;background:${sc.c};border-radius:2px"></div></div>
+        <div style="font-size:8px;color:var(--dim);margin-top:2px;letter-spacing:1px">KONFLUENSI ${cp}%</div>
+      </div>
+      <div style="max-width:240px;font-size:10px;color:#4b5d6e;line-height:1.6;font-style:italic">${rsn}</div>
+    </div>`;
+
+    $('src').innerHTML=`<div class="sh">Support Kunci</div>${sp.map((s,i)=>ZR(i+1,s.price,"S",s.s||1)).join("")}<div class="sh" style="margin-top:11px">Resistance Kunci</div>${rs.map((r,i)=>ZR(i+1,r.price,"R",r.s||1)).join("")}<div style="margin-top:6px;font-size:9px;color:var(--dmr)">●●● tinggi · ●● sedang · ● lemah</div>`;
+
+    $('mmc').innerHTML=`<div class="sh">Momentum & Indikator</div>
+      ${R("RSI Daily",`${Math.round(rD)} — ${rD>70?"OB":rD<30?"OS":"Netral"}`,rD>70?"#ff4560":rD<30?"#00ff87":"#f5c518",true)}
+      ${R("RSI Weekly",rW?`${Math.round(rW)}`:"—",rW&&rW>65?"#ff4560":rW&&rW<35?"#00ff87":"var(--txt)",true)}
+      ${R("RSI State",rDL,"#5a6a7a")}
+      ${R("Stoch RSI K/D",stK?`${stK} / ${stD||"—"}`:  "—",stK&&stK<20?"#00ff87":stK&&stK>80?"#ff4560":"#f5c518",true)}
+      ${R("Stoch State",stS,"#5a6a7a")}
+      ${R("MACD Daily",mdL,"#5a6a7a")}
+      ${R("ATR(14)",`${fmt(aV)} · ${aP}%`,"#5a6a7a")}
+      ${R("Bollinger %B",bbP?`${bbP}% — ${bbS}`:"—","#5a6a7a")}
+      ${R("Volume",vS,"#5a6a7a")}
+      <div class="sh" style="margin-top:11px">Struktur SMC</div>
+      ${R("BOS/CHoCH",bs,"var(--txt)")}${R("HH/HL",hh,"var(--txt)")}`;
+
+    $('mac').innerHTML=`<div class="sh">Moving Averages · 300 Candle · EMA200 Akurat</div>
+      <div class="mag">${MI("MA 20 Daily",aM20,m20)}${MI("MA 50 Daily",aM50,m50)}${MI("MA 200 Daily",aM200,m200)}${MI("EMA 50",aE50,e50)}${MI("EMA 200",aE200,e200)}</div>
+      ${R("EMA Cross",gc===true?"Golden Cross ✓":gc===false?"Death Cross ✗":"—",gc===true?"#00ff87":gc===false?"#ff4560":"#f5c518")}
+      ${R("BB Upper / Lower",bbd?`${fmt(bbd.u)} / ${fmt(bbd.l)}`:"—","#5a6a7a",true)}
+      ${R("Weekly MA20",wm20?fmt(wm20):"—",wm20&&price>wm20?"#00ff87":"#ff4560",true)}`;
+
+    $('scg').innerHTML=`
+      <div class="scc" style="background:rgba(0,255,135,.04);border:1px solid rgba(0,255,135,.13)">
+        <div style="font-size:9px;letter-spacing:2px;color:#00ff87;text-transform:uppercase;margin-bottom:11px">▲ Skenario Bullish</div>
+        ${R("Entry",fmt(price),"#00ff87",true)}${R("Stop Loss (ATR×2)",fmt(sl),"#ff4560",true)}
+        ${R("Target 1 / R1",fmt(tp1),"#00c96a",true)}${R("Target 2 / R2",fmt(tp2),"#00c96a",true)}${R("Target 3 / R3",fmt(tp3),"#00c96a",true)}
+        ${R("Risk / Reward","1 : "+rrFmt,"#f5c518")}
+        <div style="margin-top:8px;padding:7px 9px;background:rgba(0,255,135,.04);border-radius:7px;font-size:10px;color:#1e4a2a;line-height:1.6">BOS bullish + close atas R1 + StochRSI cross + volume ekspansi<br/>SL di bawah S1: ${fmt(sl)} (jarak ${((price-sl)/price*100).toFixed(2)}% dari entry)</div>
+      </div>
+      <div class="scc" style="background:rgba(255,69,96,.04);border:1px solid rgba(255,69,96,.13)">
+        <div style="font-size:9px;letter-spacing:2px;color:#ff4560;text-transform:uppercase;margin-bottom:11px">▼ Skenario Bearish</div>
+        ${R("Trigger Break",fmt(sp[0]?.price),"#ff4560",true)}${R("Konfirmasi","Close D1 < S1","#7a2030")}
+        ${R("Target Down 1",fmt(sp[1]?.price),"#ff4560",true)}${R("Target Down 2",fmt(sp[2]?.price),"#ff4560",true)}
+        ${R("BB Lower",bbd?fmt(bbd.l):"—","#ff4560",true)}
+        <div style="margin-top:8px;padding:7px 9px;background:rgba(255,69,96,.04);border-radius:7px;font-size:10px;color:#5a1a22;line-height:1.6">Close di bawah ${fmt(sp[0]?.price)} + MACD cross- + volume spike</div>
+      </div>`;
+
+    $('mkc').innerHTML=`<div class="sh">Data Pasar Live</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr">
+        ${R("Harga",fmt(price),"#e8f0f8",true)}${R("Market Cap",mcap?fmt(mcap):"—","var(--txt)",true)}
+        ${R("24h High",fmt(hi24),"#00c96a",true)}${R("24h Low",fmt(lo24),"#d93848",true)}
+        ${R("Volume 24h",fmt(v24),"var(--txt)",true)}${R("Perubahan 7d",ch7d!=null?pct(ch7d):"—",ch7d>=0?"#00c96a":"#d93848",true)}
+      </div>`;
+
+    hd('la');sh('res');sh('sva');
+    setTimeout(()=>setLev(LEV),50); // init trade panel
+  }catch(e){$('em').textContent=e.message||"Gagal fetch data.";hd('la');sh('ea');}
+  $('ab').disabled=false;
 }
 
-function filterPosts(filter, btn) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  renderPosts(filter);
+// TRACKER STORAGE
+function GS(){try{return JSON.parse(localStorage.getItem('ac369_sigs')||'[]')}catch(_){return[]}}
+function SS(a){localStorage.setItem('ac369_sigs',JSON.stringify(a))}
+
+function SV(){
+  if(!CSD)return;
+  const sigs=GS();
+  const dup=sigs.find(s=>s.ticker===CSD.ticker&&s.status==="active"&&Date.now()-s.timestamp<7200000);
+  if(dup){if(!confirm(`Signal ${CSD.ticker} aktif sudah ada. Timpa?`))return;sigs.splice(sigs.indexOf(dup),1);}
+  sigs.unshift(CSD);SS(sigs);
+  alert(`✓ Signal ${CSD.ticker} tersimpan!`);
+  T('tracker');
 }
 
-// ── ARTICLE PAGE ─────────────────────────────────────────────────────────────
-function openArticle(id) {
-  const posts = getPosts();
-  const post = posts.find(p => p.id === id);
-  if (!post) return;
+async function RF(){
+  const sigs=GS();
+  const actv=sigs.filter(s=>s.status==="active");
+  if(!actv.length){RT();return;}
+  for(const s of actv){
+    try{
+      const r=await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${s.ticker}USDT`);
+      if(!r.ok)continue;
+      const d=await r.json();const lp=+d.price;
+      s.currentPrice=lp;
+      s.pnlPct=((lp-s.entry)/s.entry*100).toFixed(2);
+      // Check TP/SL hits
+      if(lp<=s.sl){s.status="loss";s.hitLevel="SL";s.hitPrice=lp;s.hitTime=Date.now();}
+      else if(lp>=s.tp3){s.status="win";s.hitLevel="TP3";s.hitPrice=lp;s.hitTime=Date.now();}
+      else if(lp>=s.tp2&&s.hitLevel!=="TP3"){s.hitLevel="TP2";s.hitPrice=lp;s.hitTime=Date.now();}
+      else if(lp>=s.tp1&&!s.hitLevel){s.hitLevel="TP1";s.hitPrice=lp;s.hitTime=Date.now();}
+      // Mark win if TP1 or TP2 hit and time>7days
+      if((s.hitLevel==="TP1"||s.hitLevel==="TP2")&&Date.now()-s.timestamp>7*86400000){s.status="win";}
+      // Expired after 30 days
+      if(s.status==="active"&&Date.now()-s.timestamp>30*86400000){s.status="expired";}
+    }catch(_){}
+  }
+  SS(sigs);RT();
+}
 
-  const biasLabel = post.bias === 'bull' ? 'BULLISH' : post.bias === 'bear' ? 'BEARISH' : 'NEUTRAL';
+function RT(){
+  const sigs=GS();
+  const tot=sigs.length,w=sigs.filter(s=>s.status==="win").length,l=sigs.filter(s=>s.status==="loss").length,a=sigs.filter(s=>s.status==="active").length;
+  const wr=Math.round(w/(w+l||1)*100);
+  const wC=wr>=60?"#00ff87":wr>=45?"#f5c518":"#ff4560";
+  $('ts').innerHTML=`
+    <div style="background:rgba(0,255,135,.06);border:1px solid rgba(0,255,135,.15);border-radius:9px;padding:10px;text-align:center"><div style="font-size:18px;font-weight:800;color:${wC};font-family:'IBM Plex Mono',monospace">${wr}%</div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Winrate</div></div>
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:9px;padding:10px;text-align:center"><div style="font-size:18px;font-weight:800;color:#e8f0f8;font-family:'IBM Plex Mono',monospace">${w}</div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Win</div></div>
+    <div style="background:rgba(255,69,96,.06);border:1px solid rgba(255,69,96,.15);border-radius:9px;padding:10px;text-align:center"><div style="font-size:18px;font-weight:800;color:#ff4560;font-family:'IBM Plex Mono',monospace">${l}</div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Loss</div></div>
+    <div style="background:rgba(245,197,24,.06);border:1px solid rgba(245,197,24,.15);border-radius:9px;padding:10px;text-align:center"><div style="font-size:18px;font-weight:800;color:#f5c518;font-family:'IBM Plex Mono',monospace">${a}</div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Aktif</div></div>`;
 
-  document.getElementById('article-content').innerHTML = `
-    <div style="margin-bottom:20px;">
-      <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;">
-        <span class="post-cat ${getCatClass(post.cat)}">${post.cat}</span>
-        <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:1px;">${post.date}</span>
-        <span class="post-bias bias-${post.bias}" style="display:flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1.5px;"><div class="dot" style="width:6px;height:6px;border-radius:50%;background:${post.bias==='bull'?'var(--green)':post.bias==='bear'?'var(--red)':'var(--gold)'};"></div>${biasLabel}</span>
-      </div>
-      <h1 style="font-family:'Orbitron',monospace;font-weight:900;font-size:clamp(20px,3vw,32px);color:#fff;line-height:1.2;margin-bottom:24px;">${post.title}</h1>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:32px;background:var(--bg2);border:1px solid var(--border);padding:20px;">
-        <div class="level-box"><div class="level-tag">SUPPORT</div><div class="level-val lv-sup" style="font-family:'Orbitron',monospace;font-size:12px;font-weight:700;">${post.sup||'—'}</div></div>
-        <div class="level-box"><div class="level-tag">RESISTANCE</div><div class="level-val lv-res" style="font-family:'Orbitron',monospace;font-size:12px;font-weight:700;">${post.res||'—'}</div></div>
-        <div class="level-box"><div class="level-tag">ENTRY</div><div class="level-val lv-entry" style="font-family:'Orbitron',monospace;font-size:12px;font-weight:700;">${post.entry||'—'}</div></div>
-        <div class="level-box"><div class="level-tag">TARGET</div><div class="level-val lv-tp" style="font-family:'Orbitron',monospace;font-size:12px;font-weight:700;">${post.tp||'—'}</div></div>
-      </div>
-    </div>
-    <div class="modal-body" style="padding:0;">${post.body}</div>
-      <div style="margin-top:40px;padding-top:24px;border-top:1px solid var(--border);">
-        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:2px;margin-bottom:14px;">MULAI TRADING SEKARANG</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <a href="https://t.me/Alphacrypto_id" target="_blank" class="btn-tg" style="font-size:11px;padding:12px 20px;">📡 FREE CHANNEL</a>
-          <a href="https://thestrategymoon-crypto.github.io/alphacrypto369/" target="_blank" style="display:inline-flex;align-items:center;gap:8px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1.5px;padding:12px 20px;background:linear-gradient(135deg,rgba(0,255,224,0.08),rgba(0,255,136,0.08));color:var(--cyan);text-decoration:none;border:1px solid var(--cyan);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));">⚡ PREMIUM / VIP</a>
-          <a href="https://partner.bybit-global.com/b/369global" target="_blank" style="display:inline-flex;align-items:center;gap:8px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1.5px;padding:12px 20px;background:rgba(255,200,71,0.06);color:var(--gold);text-decoration:none;border:1px solid rgba(255,200,71,0.3);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));">🟡 DAFTAR BYBIT</a>
-          <a href="https://www.mexc.fm/id-ID/acquisition/custom-sign-up?shareCode=mexc-1JoSs" target="_blank" style="display:inline-flex;align-items:center;gap:8px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1.5px;padding:12px 20px;background:rgba(26,127,191,0.08);color:#5bb8ff;text-decoration:none;border:1px solid rgba(26,127,191,0.3);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));">🔵 DAFTAR MEXC</a>
+  if(!sigs.length){$('tl').innerHTML=`<div style="color:var(--dmr);font-size:11px;text-align:center;padding:24px">Belum ada signal.<br/>Analisis koin lalu tap Simpan ke Tracker.</div>`;return;}
+
+  $('tl').innerHTML=sigs.map(s=>{
+    const stc=s.status==="active"?"#f5c518":s.status==="win"?"#00ff87":s.status==="loss"?"#ff4560":"#3d4a5a";
+    const stl=s.status==="active"?"AKTIF":s.status==="win"?"WIN ✓":s.status==="loss"?"LOSS ✗":"EXPIRED";
+    const cp=s.currentPrice||s.entry;
+    const pp=s.pnlPct||((cp-s.entry)/s.entry*100).toFixed(2);
+    const pC=pp>=0?"#00ff87":"#ff4560";
+    const range=s.tp1-s.sl,prog=range>0?Math.min(100,Math.max(0,(cp-s.sl)/range*100)):50;
+    const age=Math.floor((Date.now()-s.timestamp)/86400000);
+    const sc=SC[s.sig]||SC.TAHAN;
+    return`<div class="tri ${s.status}">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:5px">
+        <div style="display:flex;align-items:center;gap:9px">
+          <span style="font-size:15px;font-weight:700;color:${sc.c}">${s.ticker}</span>
+          <span style="font-size:9px;color:${sc.c};background:${sc.bg};border:1px solid ${sc.bd};border-radius:4px;padding:2px 7px;letter-spacing:1px">${s.sig}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="font-size:11px;font-weight:700;color:${pC};font-family:'IBM Plex Mono',monospace">${pp>=0?"+":""}${pp}%</span>
+          <span style="font-size:9px;font-weight:700;color:${stc};background:${stc}18;border:1px solid ${stc}40;border-radius:10px;padding:2px 8px;letter-spacing:1px">${stl}</span>
         </div>
       </div>
-  `;
-
-  document.getElementById('page-home').style.display = 'none';
-  document.getElementById('page-article').style.display = 'block';
-  window.scrollTo(0,0);
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(85px,1fr));gap:5px;margin-bottom:8px">
+        <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:6px 8px"><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">Entry</div><div style="font-size:11px;font-weight:700;color:#e8f0f8;font-family:'IBM Plex Mono',monospace">${fmt(s.entry)}</div></div>
+        <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:6px 8px"><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">Stop Loss</div><div style="font-size:11px;font-weight:700;color:#ff4560;font-family:'IBM Plex Mono',monospace">${fmt(s.sl)}</div></div>
+        <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:6px 8px"><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">TP1 ${s.hitLevel==="TP1"||s.hitLevel==="TP2"||s.hitLevel==="TP3"?"✓":""}</div><div style="font-size:11px;font-weight:700;color:#00ff87;font-family:'IBM Plex Mono',monospace">${fmt(s.tp1)}</div></div>
+        <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:6px 8px"><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">TP2 ${s.hitLevel==="TP2"||s.hitLevel==="TP3"?"✓":""}</div><div style="font-size:11px;font-weight:700;color:#00ff87;font-family:'IBM Plex Mono',monospace">${fmt(s.tp2)}</div></div>
+        <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:6px 8px"><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">TP3 ${s.hitLevel==="TP3"?"✓":""}</div><div style="font-size:11px;font-weight:700;color:#00ff87;font-family:'IBM Plex Mono',monospace">${fmt(s.tp3)}</div></div>
+        <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:6px 8px"><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">Live</div><div style="font-size:11px;font-weight:700;color:${pC};font-family:'IBM Plex Mono',monospace">${fmt(cp)}</div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:8px;color:var(--dmr);margin-bottom:3px"><span>SL</span><span>Entry</span><span>TP1</span></div>
+        <div class="trpb"><div class="trpf" style="width:${prog}%;background:${prog>50?"#00ff87":"#ff4560"}"></div></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:3px;margin-top:6px;font-size:9px;color:var(--dmr)">
+        <span>Konfluensi: ${s.cp||"—"}%</span>
+        <span>${age===0?"Hari ini":age+"hr lalu"}</span>
+        ${s.hitLevel?`<span style="color:${stc}">Hit: ${s.hitLevel} @ ${fmt(s.hitPrice)}</span>`:""}
+        <button onclick="DS(${s.id})" style="background:none;border:none;color:#3d4a5a;cursor:pointer;font-size:9px;font-family:inherit;padding:0">✕ Hapus</button>
+        <button onclick="QT('${s.ticker}','${s.sig}',${s.entry},${s.sl},${s.tp1},${s.tp2},${s.tp3})" style="background:rgba(0,255,135,.07);border:1px solid rgba(0,255,135,.2);border-radius:5px;color:var(--g);cursor:pointer;font-size:9px;font-family:inherit;padding:2px 8px;letter-spacing:1px">⚡ TRADE</button>
+      </div>
+    </div>`;
+  }).join("");
 }
 
-function showHome() {
-  document.getElementById('page-home').style.display = 'block';
-  document.getElementById('page-article').style.display = 'none';
-  window.scrollTo(0,0);
+function DS(id){if(!confirm("Hapus signal ini?"))return;SS(GS().filter(s=>s.id!==id));RT();}
+function CC(){if(!confirm("Hapus semua win/loss/expired?"))return;SS(GS().filter(s=>s.status==="active"));RT();}
+
+// Quick trade from tracker — set CSD then open Bybit
+function QT(ticker,sig,entry,sl,tp1,tp2,tp3){
+  CSD={ticker,sig,conf:7,cp:70,price:entry,entry,sl,tp1,tp2,tp3,trend:"—"};
+  T('analyze');
+  // Scroll to top
+  window.scrollTo({top:0,behavior:'smooth'});
+  sh('sva');
+  setTimeout(()=>setLev(LEV),80);
+  setTimeout(()=>{
+    const panel=document.getElementById('trade-panel');
+    if(panel)panel.scrollIntoView({behavior:'smooth',block:'center'});
+  },300);
 }
 
-// ── ADMIN ────────────────────────────────────────────────────────────────────
-function openAdmin() {
-  document.getElementById('admin-overlay').classList.add('open');
-  document.getElementById('admin-login-box').style.display = 'block';
-  document.getElementById('admin-panel').style.display = 'none';
+// WINRATE
+function RW(){
+  const sigs=GS().filter(s=>s.status!=="active");
+  if(!sigs.length){
+    $('wo').innerHTML=`<div style="color:var(--dmr);font-size:11px;text-align:center;padding:20px">Belum ada signal closed.<br/>Winrate muncul setelah hit TP atau SL.</div>`;
+    $('wm').innerHTML="";$('wb').innerHTML="";return;
+  }
+  const tot=sigs.length,w=sigs.filter(s=>s.status==="win").length,l=sigs.filter(s=>s.status==="loss").length;
+  const wr=Math.round(w/(w+l||1)*100);const wC=wr>=60?"#00ff87":wr>=45?"#f5c518":"#ff4560";
+  $('wo').innerHTML=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px">
+    <div style="background:rgba(0,255,135,.06);border:1px solid rgba(0,255,135,.15);border-radius:10px;padding:11px;text-align:center"><div style="font-size:20px;font-weight:800;color:${wC};font-family:'IBM Plex Mono',monospace">${wr}%</div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Overall WR</div></div>
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:10px;padding:11px;text-align:center"><div style="font-size:20px;font-weight:800;color:#e8f0f8;font-family:'IBM Plex Mono',monospace">${tot}</div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Total</div></div>
+    <div style="background:rgba(0,255,135,.04);border:1px solid rgba(0,255,135,.1);border-radius:10px;padding:11px;text-align:center"><div style="font-size:20px;font-weight:800;color:#00ff87;font-family:'IBM Plex Mono',monospace">${w}</div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Win</div></div>
+    <div style="background:rgba(255,69,96,.04);border:1px solid rgba(255,69,96,.1);border-radius:10px;padding:11px;text-align:center"><div style="font-size:20px;font-weight:800;color:#ff4560;font-family:'IBM Plex Mono',monospace">${l}</div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Loss</div></div>
+  </div>`;
+
+  const bm={};sigs.forEach(s=>{const d=new Date(s.hitTime||s.timestamp);const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;if(!bm[k])bm[k]=[];bm[k].push(s);});
+  const MN=["","Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agt","Sep","Okt","Nov","Des"];
+  $('wm').innerHTML=Object.keys(bm).sort().reverse().map(m=>{
+    const a=bm[m],mw=a.filter(s=>s.status==="win").length,ml=a.filter(s=>s.status==="loss").length,me=a.filter(s=>s.status==="expired").length;
+    const mwr=Math.round(mw/(mw+ml||1)*100);const mc=mwr>=60?"#00ff87":mwr>=45?"#f5c518":"#ff4560";
+    const[yr,mo]=m.split("-");
+    return`<div class="wrm">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px">
+        <div><div style="font-size:12px;font-weight:700;color:#e8f0f8">${MN[+mo]} ${yr}</div><div style="font-size:9px;color:var(--dmr);margin-top:1px">${a.length} signal</div></div>
+        <div style="font-size:20px;font-weight:800;color:${mc};font-family:'IBM Plex Mono',monospace">${mwr}%</div>
+      </div>
+      <div class="wrb"><div class="wrbf" style="width:${mwr}%;background:${mc}"></div></div>
+      <div class="wrs">
+        <div class="wri"><div style="font-size:14px;font-weight:700;color:${mc};font-family:'IBM Plex Mono',monospace">${mwr}%</div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">WR</div></div>
+        <div class="wri"><div style="font-size:14px;font-weight:700;color:#00ff87;font-family:'IBM Plex Mono',monospace">${mw}</div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Win</div></div>
+        <div class="wri"><div style="font-size:14px;font-weight:700;color:#ff4560;font-family:'IBM Plex Mono',monospace">${ml}</div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Loss</div></div>
+        <div class="wri"><div style="font-size:14px;font-weight:700;color:#3d4a5a;font-family:'IBM Plex Mono',monospace">${me}</div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Exp</div></div>
+      </div>
+      <div style="margin-top:9px">${a.map(s=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.03)"><span style="font-size:10px;color:#e8f0f8;font-weight:700">${s.ticker}</span><span style="font-size:9px;color:${SC[s.sig]?.c||"#c4ccd6"}">${s.sig}</span><span style="font-size:9px;font-weight:700;color:${s.status==="win"?"#00ff87":"#ff4560"}">${s.status==="win"?"WIN ✓":"LOSS ✗"}</span>${s.hitLevel?`<span style="font-size:9px;color:var(--dmr)">${s.hitLevel}</span>`:"<span></span>"}</div>`).join("")}</div>
+    </div>`;
+  }).join("");
+
+  const bc={};sigs.forEach(s=>{if(!bc[s.ticker])bc[s.ticker]={w:0,l:0};if(s.status==="win")bc[s.ticker].w++;else if(s.status==="loss")bc[s.ticker].l++;});
+  const ck=Object.keys(bc).sort((a,b)=>{const wa=bc[a].w/(bc[a].w+bc[a].l||1),wb2=bc[b].w/(bc[b].w+bc[b].l||1);return wb2-wa;});
+  if(ck.length){$('wb').innerHTML=`<div class="sh">Winrate Per Koin</div><div class="wrc">${ck.map(c=>{const n=bc[c],wr2=Math.round(n.w/(n.w+n.l||1)*100);const c2=wr2>=60?"#00ff87":wr2>=45?"#f5c518":"#ff4560";return`<div class="wrci"><div style="font-size:10px;font-weight:700;color:#e8f0f8;margin-bottom:2px">${c}</div><div style="font-size:11px;font-weight:700;color:${c2}">${wr2}%</div><div style="font-size:8px;color:var(--dmr)">${n.w}W/${n.l}L</div></div>`;}).join("")}</div>`;}
 }
-function closeAdmin() {
-  document.getElementById('admin-overlay').classList.remove('open');
-  document.getElementById('admin-pw').value = '';
-  document.getElementById('login-err').style.display = 'none';
+
+// ═══════════════════════════════════════════════
+// TRADE EXECUTION — LEVEL 1
+// ═══════════════════════════════════════════════
+let LEV=3; // default leverage
+
+function setLev(x){
+  LEV=x;
+  document.querySelectorAll('.lev-btn').forEach(b=>{
+    const bx=parseInt(b.id.split('-')[1]);
+    b.style.background=bx===x?'rgba(0,255,135,.15)':'rgba(255,255,255,.03)';
+    b.style.borderColor=bx===x?'rgba(0,255,135,.5)':'rgba(255,255,255,.07)';
+    b.style.color=bx===x?'#00ff87':'var(--dim)';
+  });
+  UTP();
 }
-function doLogin() {
-  const pw = document.getElementById('admin-pw').value;
-  if (pw === ADMIN_PASS) {
-    document.getElementById('admin-login-box').style.display = 'none';
-    document.getElementById('admin-panel').style.display = 'block';
-    renderAdminList();
-  } else {
-    document.getElementById('login-err').style.display = 'block';
+
+function UTP(){
+  if(!CSD)return;
+  const size=parseFloat(document.getElementById('trade-size').value)||100;
+  const p=CSD.price,sl=CSD.sl,tp1=CSD.tp1,tp2=CSD.tp2,tp3=CSD.tp3;
+
+  // Qty in base asset
+  const qty=(size*LEV/p);
+  const qtyFmt=qty>=1?qty.toFixed(3):qty.toFixed(6);
+
+  // Risk/reward calculations
+  const riskUSDT = size * (p - sl) / p * LEV;
+  const profTP1  = size * (tp1 - p) / p * LEV;
+  const profTP2  = size * (tp2 - p) / p * LEV;
+  const profTP3  = size * (tp3 - p) / p * LEV;
+  const rrTP1    = riskUSDT > 0 ? (profTP1 / riskUSDT) : 0;
+  const rrTP2    = riskUSDT > 0 ? (profTP2 / riskUSDT) : 0;
+  const rrLabel  = rrTP1 >= 2 ? "✓ Excellent" : rrTP1 >= 1.5 ? "✓ Good" : rrTP1 >= 1 ? "⚠ Minimal" : "✗ Skip";
+  const rrColor  = rrTP1 >= 2 ? "#00ff87" : rrTP1 >= 1.5 ? "#00c96a" : rrTP1 >= 1 ? "#f5c518" : "#ff4560";
+
+  // Params display
+  document.getElementById('trade-params').innerHTML=[
+    {l:"Entry",v:fmt(p),c:"#e8f0f8"},
+    {l:"Stop Loss",v:fmt(sl),c:"#ff4560"},
+    {l:"TP1",v:fmt(tp1),c:"#00ff87"},
+    {l:"TP2",v:fmt(tp2),c:"#00c96a"},
+    {l:"TP3",v:fmt(tp3),c:"#009955"},
+    {l:"Leverage",v:LEV+"x",c:"#f5c518"},
+    {l:"Qty Koin",v:qtyFmt,c:"#00ccff"},
+    {l:"Nilai",v:fmt(size*LEV),c:"#c4ccd6"},
+  ].map(x=>`<div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);border-radius:7px;padding:7px 9px;text-align:center">
+    <div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">${x.l}</div>
+    <div style="font-size:11px;font-weight:700;color:${x.c};font-family:'IBM Plex Mono',monospace">${x.v}</div>
+  </div>`).join("");
+
+  // RR preview
+  document.getElementById('rr-preview').innerHTML=[
+    {l:"Modal",        v:"$"+size.toFixed(0),              c:"#c4ccd6"},
+    {l:"Max Risk",     v:"-$"+riskUSDT.toFixed(1),         c:"#ff4560"},
+    {l:"Profit TP1",  v:"+$"+profTP1.toFixed(1),          c:"#00ff87"},
+    {l:"R:R → TP1",   v:"1:"+rrTP1.toFixed(2)+" "+rrLabel, c:rrColor},
+    {l:"Profit TP2",  v:"+$"+profTP2.toFixed(1),           c:"#00c96a"},
+    {l:"R:R → TP2",   v:"1:"+rrTP2.toFixed(2),             c:rrTP2>=2.5?"#00ff87":"#f5c518"},
+    {l:"Profit TP3",  v:"+$"+profTP3.toFixed(1),           c:"#009955"},
+    {l:"Jarak SL",    v:((p-sl)/p*100).toFixed(2)+"%",     c:"#5a6a7a"},
+  ].map(x=>`<div><div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">${x.l}</div><div style="font-size:12px;font-weight:800;color:${x.c};font-family:'IBM Plex Mono',monospace;line-height:1.2">${x.v}</div></div>`).join("");
+}
+
+function openBybit(side){
+  if(!CSD)return;
+  const size=parseFloat(document.getElementById('trade-size').value)||100;
+  const sym=CSD.ticker+"USDT";
+  const qty=(size*LEV/CSD.price);
+  const qtyStr=qty>=1?qty.toFixed(3):qty.toFixed(6);
+  const slStr=CSD.sl.toFixed(CSD.sl>=1?2:4);
+  const tpStr=CSD.tp1.toFixed(CSD.tp1>=1?2:4);
+
+  // Bybit deep link — opens trade page with symbol pre-selected
+  // Parameters: type=1 (perpetual), symbol, leverage
+  const url=`https://www.bybit.com/trade/usdt/${sym}?lever=${LEV}&orderType=Limit&price=${CSD.price.toFixed(CSD.price>=1?2:4)}&qty=${qtyStr}&side=${side==="LONG"?"Buy":"Sell"}&stopLoss=${slStr}&takeProfit=${tpStr}`;
+
+  // Build order summary for clipboard
+  const orderText=`AC369 SIGNAL — ${side}
+Pair: ${sym} (PERP)
+Entry: ${fmt(CSD.price)}
+Stop Loss: ${fmt(CSD.sl)}
+TP1: ${fmt(CSD.tp1)}
+TP2: ${fmt(CSD.tp2)}
+TP3: ${fmt(CSD.tp3)}
+Leverage: ${LEV}x
+Size: $${size} (Notional: $${(size*LEV).toFixed(0)})
+Qty: ${qtyStr} ${CSD.ticker}
+Signal: ${CSD.sig} | Konfluensi: ${CSD.cp}%
+---
+@Alphacrypto_id | AC369 Signal System`;
+
+  // Copy to clipboard then open Bybit
+  navigator.clipboard.writeText(orderText).catch(()=>{});
+  window.open(url,'_blank');
+
+  // Visual feedback
+  const btn=document.getElementById(side==="LONG"?'btn-bybit-long':'btn-bybit-short');
+  const origText=btn.innerHTML;
+  btn.innerHTML=`<span>✓</span><span>MEMBUKA BYBIT...</span><span style="font-size:8px;opacity:.6">Order detail di-copy</span>`;
+  setTimeout(()=>btn.innerHTML=origText,2500);
+}
+
+function openBinance(side){
+  if(!CSD)return;
+  const sym=CSD.ticker+"USDT";
+  // Binance Futures deep link
+  const url=`https://www.binance.com/en/futures/${sym}`;
+  // Copy order detail
+  const size=parseFloat(document.getElementById('trade-size').value)||100;
+  const orderText=`AC369 SIGNAL — ${side}
+Pair: ${sym} (PERP)
+Entry: ${fmt(CSD.price)}
+Stop Loss: ${fmt(CSD.sl)}
+TP1: ${fmt(CSD.tp1)} | TP2: ${fmt(CSD.tp2)} | TP3: ${fmt(CSD.tp3)}
+Leverage: ${LEV}x | Size: $${size}
+Signal: ${CSD.sig} | Konfluensi: ${CSD.cp}%
+@Alphacrypto_id`;
+  navigator.clipboard.writeText(orderText).catch(()=>{});
+  window.open(url,'_blank');
+}
+
+function copyOrder(){
+  if(!CSD)return;
+  const size=parseFloat(document.getElementById('trade-size').value)||100;
+  const qty=(size*LEV/CSD.price);
+  const text=`═══════════════════════
+AC369 SIGNAL SYSTEM
+═══════════════════════
+Pair   : ${CSD.ticker}/USDT (PERP)
+Signal : ${CSD.sig} | Keyakinan: ${CSD.conf}/10
+Konflu : ${CSD.cp}%
+Tren   : ${CSD.trend}
+───────────────────────
+Entry  : ${fmt(CSD.price)}
+SL     : ${fmt(CSD.sl)}
+TP1    : ${fmt(CSD.tp1)}
+TP2    : ${fmt(CSD.tp2)}
+TP3    : ${fmt(CSD.tp3)}
+───────────────────────
+Lev    : ${LEV}x
+Size   : $${size} USDT
+Notional: $${(size*LEV).toFixed(0)}
+Qty    : ${qty>=1?qty.toFixed(3):qty.toFixed(6)} ${CSD.ticker}
+───────────────────────
+${new Date().toLocaleString('id-ID')}
+@Alphacrypto_id | Alpha Crypto 369
+═══════════════════════`;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=event.target;
+    btn.textContent="✓ TERSALIN!";
+    btn.style.color="#00ff87";
+    setTimeout(()=>{btn.textContent="📋 COPY ORDER DETAIL";btn.style.color="#00ccff";},2000);
+  }).catch(()=>alert(text));
+}
+
+// Init leverage UI
+setTimeout(()=>setLev(3),100);
+
+// Auto-update trade params when size changes
+document.addEventListener('input',e=>{if(e.target.id==='trade-size')UTP();});
+
+// ═══════════════════════════════════════════════
+// MARKET SCANNER PRO ENGINE
+// ═══════════════════════════════════════════════
+
+// Top 100 USDT perpetual futures symbols (curated, liquidity-filtered)
+const TOP100 = [
+  "BTC","ETH","BNB","SOL","XRP","DOGE","ADA","AVAX","LINK","DOT",
+  "MATIC","LTC","UNI","ATOM","NEAR","ICP","APT","FIL","ARB","OP",
+  "INJ","SUI","TIA","HYPE","RENDER","WLD","PEPE","WIF","BONK","FLOKI",
+  "STX","IMX","GRT","AAVE","SNX","ENS","LDO","RPL","CVX","BAL",
+  "SAND","MANA","AXS","GALA","CHZ","FLOW","ROSE","ONE","ZIL","THETA",
+  "VET","ALGO","XTZ","EOS","TRX","IOTA","NEO","WAVES","DASH","ZEC",
+  "FTM","KAVA","CELO","BAND","ANKR","CRV","MKR","COMP","YFI","SUSHI",
+  "1INCH","DYDX","GMX","JTO","PYTH","SEI","MANTA","ALT","DYM","PIXEL",
+  "PORTAL","STRK","METIS","BLUR","NFT","LOOM","SKL","OGN","REEF","CTSI",
+  "BAKE","DODO","HARD","BEAM","SUPER","ACE","XAI","VANRY","NFP","AI"
+];
+
+const TOP150_EXTRA = [
+  "MASK","AUDIO","RUNE","OCEAN","NMR","RLC","MDT","DATA","LINA","BNX",
+  "VOXEL","GMT","APE","HFT","LQTY","SSV","RDNT","MAGIC","HOP","AGIX",
+  "FET","RNDR","STORJ","ORN","PERP","DENT","CELR","STMX","SLP","WIN",
+  "HOT","TWT","POLY","ACH","FOR","MTL","OAX","PROS","IDEX","AKRO",
+  "BADGER","ALPHA","FARM","MIR","BOND","FODL","TORN","RAMP","BURGER","CFX",
+  "MOVR"
+];
+
+const STABLES = new Set(["USDT","USDC","BUSD","DAI","TUSD","USDP","FDUSD","FRAX","LUSD","USDD"]);
+
+const UNIVERSES = {
+  top10:  ["BTC","ETH","BNB","SOL","XRP","AVAX","DOGE","ADA","LINK","DOT"],
+  top20:  ["BTC","ETH","BNB","SOL","XRP","AVAX","DOGE","ADA","LINK","DOT","NEAR","ATOM","HYPE","SUI","ARB","OP","TIA","INJ","WLD","RENDER"],
+  defi:   ["HYPE","AAVE","UNI","ARB","OP","GMX","INJ","LINK","ATOM","CRV","MKR","COMP","SNX","LDO"],
+  l1l2:   ["ETH","SOL","BNB","AVAX","DOT","NEAR","SUI","TIA","ARB","OP","INJ","ATOM","APT","SEI","STX"],
+  all:    ["BTC","ETH","SOL","BNB","XRP","AVAX","ARB","OP","LINK","DOT","HYPE","SUI","WIF","PEPE","TIA","RENDER","WLD","INJ","ATOM","NEAR","DOGE","ADA"],
+  top100: TOP100,
+  top150: [...TOP100, ...TOP150_EXTRA],
+};
+
+let SELECTED_UNIVERSE = "top100";
+let SCAN_MODE = "pro"; // "standard" | "pro"
+let scanRunning = false;
+
+function setUniverse(u) {
+  SELECTED_UNIVERSE = u;
+  document.querySelectorAll('.univ-btn').forEach(b => {
+    const active = b.dataset.u === u;
+    b.style.background = active ? "rgba(0,255,135,.12)" : "rgba(255,255,255,.03)";
+    b.style.borderColor = active ? "rgba(0,255,135,.4)" : "rgba(255,255,255,.08)";
+    b.style.color = active ? "#00ff87" : "var(--dim)";
+  });
+}
+
+function setScanMode(mode) {
+  SCAN_MODE = mode;
+  const lblPro = document.getElementById('mode-lbl-pro');
+  const lblStd = document.getElementById('mode-lbl-standard');
+  if(lblPro) { lblPro.style.background = mode==="pro"?"rgba(0,255,135,.06)":"rgba(255,255,255,.03)"; lblPro.style.borderColor = mode==="pro"?"rgba(0,255,135,.3)":"rgba(255,255,255,.07)"; }
+  if(lblStd) { lblStd.style.background = mode==="standard"?"rgba(0,255,135,.06)":"rgba(255,255,255,.03)"; lblStd.style.borderColor = mode==="standard"?"rgba(0,255,135,.3)":"rgba(255,255,255,.07)"; }
+}
+
+// ── PHASE 1: Batch pre-filter via 24h tickers ──
+async function preFilterCoins(candidates) {
+  try {
+    // Fetch all USDT perpetual 24h tickers in one call
+    const res = await fetch('https://api.binance.com/api/v3/ticker/24hr');
+    if(!res.ok) return candidates;
+    const all = await res.json();
+    const map = {};
+    all.forEach(t => { if(t.symbol.endsWith('USDT')) map[t.symbol.replace('USDT','')] = t; });
+
+    const filterVol = document.getElementById('f-vol')?.checked;
+    const filterStable = document.getElementById('f-excl-stable')?.checked;
+
+    // Score each candidate by pre-filter criteria
+    const scored = candidates
+      .filter(c => {
+        if(filterStable && STABLES.has(c)) return false;
+        return map[c]; // must have 24h data
+      })
+      .map(c => {
+        const t = map[c];
+        const ch24 = parseFloat(t.priceChangePercent);
+        const vol24 = parseFloat(t.quoteVolume);
+        const hi = parseFloat(t.highPrice), lo = parseFloat(t.lowPrice), price = parseFloat(t.lastPrice);
+        const range = hi > 0 ? (hi-lo)/lo*100 : 0;
+
+        // Pre-filter score: volume activity + momentum signals
+        let preScore = 0;
+        if(vol24 > 50000000) preScore += 3;      // >$50M volume
+        else if(vol24 > 10000000) preScore += 2;  // >$10M
+        else if(vol24 > 1000000) preScore += 1;   // >$1M
+        else if(filterVol) return null;            // skip low volume
+
+        if(Math.abs(ch24) > 3) preScore += 2;     // significant move
+        if(Math.abs(ch24) > 8) preScore += 1;     // strong move
+        if(range > 4) preScore += 1;               // good range for TA
+
+        return { ticker: c, preScore, ch24, vol24, price };
+      })
+      .filter(Boolean);
+
+    // Sort by preScore, take top 35 candidates for deep analysis
+    scored.sort((a,b) => b.preScore - a.preScore);
+    return scored.slice(0, 35).map(s => s.ticker);
+  } catch(_) {
+    return candidates.slice(0, 35);
   }
 }
 
-function renderAdminList() {
-  const posts = getPosts();
-  const list = document.getElementById('admin-posts-list');
-  if (posts.length === 0) { list.innerHTML = '<div style="font-size:12px;color:var(--text3);">Belum ada post.</div>'; return; }
-  list.innerHTML = posts.map(p =>
-    `<div class="admin-post-item">
-      <div class="admin-post-title">${p.title}</div>
-      <div class="admin-post-meta">${p.date}</div>
-      <button class="btn-delete" onclick="deletePost('${p.id}')">HAPUS</button>
-    </div>`
-  ).join('');
+// ── PHASE 2: Deep TA on candidates ──
+async function quickTA(ticker) {
+  const kR = await fetch(`https://api.binance.com/api/v3/klines?symbol=${ticker}USDT&interval=1d&limit=120`);
+  if(!kR.ok) return null;
+  const kl = await kR.json();
+  if(!Array.isArray(kl)||kl.length<30) return null;
+
+  const hi=kl.map(k=>+k[2]),lo=kl.map(k=>+k[3]),cl=kl.map(k=>+k[4]),vol=kl.map(k=>+k[5]);
+  const price=cl[cl.length-1];
+
+  const t2=await(await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${ticker}USDT`)).json();
+  const ch24=+t2.priceChangePercent, vol24=+t2.quoteVolume;
+
+  const m20=lst(sma(cl,20)),m50=lst(sma(cl,50)),m200=lst(sma(cl,Math.min(100,cl.length)));
+  const e50=lst(ema(cl,50)),e200=lst(ema(cl,Math.min(100,cl.length)));
+  const rD=rsi(cl.slice(-30),14);
+  const st=stRSI(cl);
+  const aV=atrF(hi,lo,cl,14);
+  const bbd=bb(cl);
+  const md=macd(cl);
+  const {sp,rs}=findSR(hi,lo,price);
+
+  // LONG score
+  let longScore=0;
+  if(rD<30)longScore+=3;else if(rD<40)longScore+=2;else if(rD<50)longScore+=1;
+  else if(rD>70)longScore-=3;else if(rD>65)longScore-=1;
+  if(st.k&&st.d){if(st.k<20&&st.d<20)longScore+=2;if(st.k>st.d&&st.k<40)longScore+=1;if(st.k>80)longScore-=2;}
+  if(m200&&price>m200)longScore+=2;else if(m200&&price<m200)longScore-=1;
+  if(price>m50)longScore+=1;else longScore-=1;
+  if(e200&&e50>e200)longScore+=2;else if(e200&&e50<e200)longScore-=1;
+  if(md.h>0&&md.ph<=0)longScore+=2;else if(md.h>0)longScore+=1;else if(md.h<0&&md.ph>=0)longScore-=2;else if(md.h<0)longScore-=1;
+  if(bbd&&price<bbd.l)longScore+=2;if(bbd&&price>bbd.u)longScore-=1;
+  const avgVol=vol.slice(-20).reduce((a,b)=>a+b,0)/20;
+  if(vol.slice(-3).reduce((a,b)=>a+b,0)/3>avgVol*1.5)longScore+=1;
+  if(ch24>3)longScore+=1;else if(ch24<-8)longScore-=1;
+
+  // SHORT score (inverse)
+  let shortScore = -longScore;
+  // Extra short signals
+  if(rD>70)shortScore+=3;else if(rD>65)shortScore+=1;
+  if(st.k&&st.k>80&&st.d>80)shortScore+=2;
+  if(m200&&price<m200)shortScore+=1;
+  if(e200&&e50<e200)shortScore+=1;
+  if(md.h<0&&md.ph>=0)shortScore+=2;
+  if(bbd&&price>bbd.u)shortScore+=2;
+  if(ch24<-5)shortScore+=1;
+
+  // SL/TP for long
+  const s1=sp[0]?.price;
+  const slLong=s1?s1*0.995:price-(aV*2);
+  const riskLong=price-slLong;
+  const tp1Long=price+riskLong*1.5,tp2Long=price+riskLong*2.5,tp3Long=price+riskLong*4;
+  const rrLong=riskLong>0?(tp1Long-price)/riskLong:0;
+
+  // SL/TP for short
+  const r1=rs[0]?.price;
+  const slShort=r1?r1*1.005:price+(aV*2);
+  const riskShort=slShort-price;
+  const tp1Short=price-riskShort*1.5,tp2Short=price-riskShort*2.5,tp3Short=price-riskShort*4;
+  const rrShort=riskShort>0?(price-tp1Short)/riskShort:0;
+
+  const maxScore=15;
+  const longConf=Math.min(99,Math.round(Math.max(0,longScore)/maxScore*100));
+  const shortConf=Math.min(99,Math.round(Math.max(0,shortScore)/maxScore*100));
+
+  return {
+    ticker,price,ch24,vol24,
+    longScore,shortScore,longConf,shortConf,
+    rD:Math.round(rD||0),stK:st.k?Math.round(st.k):null,
+    macdDir:md.h>0?"▲":"▼",
+    aboveM200:m200?price>m200:null,
+    goldenX:e200?e50>e200:null,
+    bbState:bbd?(price<bbd.l?"OS":price>bbd.u?"OB":"Netral"):"—",
+    atrPct:(aV/price*100).toFixed(1),
+    // Long setup
+    slLong,tp1Long,tp2Long,tp3Long,rrLong,
+    // Short setup
+    slShort,tp1Short,tp2Short,tp3Short,rrShort,
+  };
 }
 
-function deletePost(id) {
-  if (!confirm('Hapus analisa ini?')) return;
-  const posts = getPosts().filter(p => p.id !== id);
-  savePosts(posts);
-  renderPosts();
-  renderAdminList();
+async function startScan() {
+  if(scanRunning) return;
+  scanRunning = true;
+
+  const allCoins = UNIVERSES[SELECTED_UNIVERSE] || TOP100;
+  const filterRR = document.getElementById('f-minrr')?.checked;
+
+  // Reset UI
+  const btn = document.getElementById('scan-btn');
+  btn.disabled = true; btn.textContent = "⏳ SCANNING...";
+  document.getElementById('pro-results')?.classList.add('hidden');
+  document.getElementById('scan-results')?.classList.add('hidden');
+  ['long-wrap','short-wrap','gen-content-wrap','gen-content-wrap2'].forEach(id=>{document.getElementById(id)?.classList.add('hidden');});
+  ['tier-s-wrap','tier-a-wrap','tier-b-wrap','tier-skip-wrap'].forEach(id=>{document.getElementById(id)?.classList.add('hidden');});
+  ['tier-s','tier-a','tier-b','tier-skip','long-list','short-list'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});
+  document.getElementById('scan-feed').innerHTML = "";
+  document.getElementById('scan-bar').style.width = "0%";
+  sh('scan-progress');
+
+  // PHASE 1: Pre-filter (fast, 1-2 API calls for large universes)
+  let candidates = allCoins;
+  if(allCoins.length > 25) {
+    document.getElementById('scan-phase').textContent = "Phase 1: Pre-filter volume & momentum...";
+    document.getElementById('scan-count').textContent = `Pre-filtering ${allCoins.length} koin...`;
+    candidates = await preFilterCoins(allCoins);
+    document.getElementById('scan-found').textContent = `${candidates.length} kandidat kuat`;
+    const feed = document.getElementById('scan-feed');
+    feed.innerHTML += `<span style="color:#00ff87">✓ Pre-filter selesai: ${candidates.length} dari ${allCoins.length} lolos seleksi awal</span><br/>`;
+  }
+
+  // PHASE 2: Deep TA
+  document.getElementById('scan-phase').textContent = "Phase 2: Analisis TA mendalam...";
+  const results = [];
+  let done = 0;
+
+  for(const ticker of candidates) {
+    document.getElementById('scan-status').textContent = `Analisis ${ticker}...`;
+    try {
+      const r = await quickTA(ticker);
+      done++;
+      document.getElementById('scan-bar').style.width = Math.round(done/candidates.length*100)+"%";
+      document.getElementById('scan-count').textContent = `${done} / ${candidates.length} koin`;
+
+      if(r) {
+        results.push(r);
+        const feed = document.getElementById('scan-feed');
+        const longClr = r.longScore>=5?"#00ff87":r.longScore>=2?"#f5c518":"#3d4a5a";
+        const shortClr = r.shortScore>=5?"#ff4560":r.shortScore>=2?"#f5c518":"#3d4a5a";
+        feed.innerHTML += `<span style="color:#c4ccd6">${ticker}</span> · <span style="color:${longClr}">L:${r.longScore>0?"+":""}${r.longScore}</span> · <span style="color:${shortClr}">S:${r.shortScore>0?"+":""}${r.shortScore}</span> · RSI:${r.rD} · <span style="color:${r.rrLong>=1.5?"#00ff87":"#5a6a7a"}">RR:${r.rrLong.toFixed(1)}</span><br/>`;
+        feed.scrollTop = feed.scrollHeight;
+      }
+    } catch(_) { done++; }
+    await new Promise(res=>setTimeout(res,180));
+  }
+
+  // Cache results
+  scanResultsCache = results;
+
+  // ── RANK & RENDER ──
+  if(SCAN_MODE === "pro") {
+    // TOP LONG: sorted by longScore, filter by RR
+    const longList = results
+      .filter(r => r.longScore > 0 && (!filterRR || r.rrLong >= 1.5))
+      .sort((a,b) => (b.longScore*2+b.rrLong) - (a.longScore*2+a.rrLong))
+      .slice(0, 10);
+
+    // TOP SHORT: sorted by shortScore, filter by RR
+    const shortList = results
+      .filter(r => r.shortScore > 0 && (!filterRR || r.rrShort >= 1.5))
+      .sort((a,b) => (b.shortScore*2+b.rrShort) - (a.shortScore*2+a.rrShort))
+      .slice(0, 5);
+
+    // Summary bar
+    const avgLongConf = longList.length ? Math.round(longList.reduce((a,r)=>a+r.longConf,0)/longList.length) : 0;
+    document.getElementById('pro-summary').innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+        <div style="background:rgba(9,12,20,.9);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:#e8f0f8;font-family:'IBM Plex Mono',monospace">${results.length}</div>
+          <div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Di-scan</div>
+        </div>
+        <div style="background:rgba(0,255,135,.06);border:1px solid rgba(0,255,135,.2);border-radius:10px;padding:11px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:#00ff87;font-family:'IBM Plex Mono',monospace">${longList.length}</div>
+          <div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Top Long</div>
+        </div>
+        <div style="background:rgba(255,69,96,.06);border:1px solid rgba(255,69,96,.2);border-radius:10px;padding:11px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:#ff4560;font-family:'IBM Plex Mono',monospace">${shortList.length}</div>
+          <div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Top Short</div>
+        </div>
+        <div style="background:rgba(245,197,24,.06);border:1px solid rgba(245,197,24,.2);border-radius:10px;padding:11px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:#f5c518;font-family:'IBM Plex Mono',monospace">${avgLongConf}%</div>
+          <div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-top:2px">Avg Conf</div>
+        </div>
+      </div>`;
+
+    renderProList('long-list', 'long-wrap', longList, 'long');
+    renderProList('short-list', 'short-wrap', shortList, 'short');
+
+    // Auto-select top coins for content
+    selectedCoinsForContent = new Set(longList.slice(0,4).map(r=>r.ticker));
+
+    hd('scan-progress');
+    sh('pro-results');
+    sh('gen-content-wrap');
+
+  } else {
+    // Standard tier mode
+    results.sort((a,b)=>b.longScore-a.longScore);
+    const tierS=[],tierA=[],tierB=[],tierSkip=[];
+    results.forEach(r=>{
+      const rFmt={...r,sig:r.longScore>=5?"BELI":r.longScore<=-3?"JUAL":"TAHAN",score:r.longScore,conf_pct:r.longConf,sl:r.slLong,tp1:r.tp1Long,tp2:r.tp2Long,tp3:r.tp3Long,rr:r.rrLong,s:1};
+      if(r.longScore>=7&&r.rrLong>=2)tierS.push(rFmt);
+      else if(r.longScore>=4&&r.rrLong>=1.5)tierA.push(rFmt);
+      else if(r.longScore>=1)tierB.push(rFmt);
+      else tierSkip.push(rFmt);
+    });
+    renderTier('tier-s',tierS,'tier-s-wrap','#ffd700','TIER S');
+    renderTier('tier-a',tierA,'tier-a-wrap','#00ff87','TIER A');
+    renderTier('tier-b',tierB,'tier-b-wrap','#00ccff','TIER B');
+    if(tierSkip.length){sh('tier-skip-wrap');document.getElementById('tier-skip').innerHTML=tierSkip.map(r=>`<span style="padding:3px 9px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:10px;font-size:9px;color:#3d4a5a;cursor:pointer" onclick="goAnalyze('${r.ticker}')">${r.ticker}</span>`).join("");}
+    selectedCoinsForContent=new Set(tierS.concat(tierA).slice(0,4).map(r=>r.ticker));
+    hd('scan-progress');
+    sh('scan-results');
+    sh('gen-content-wrap2');
+  }
+
+  btn.disabled=false; btn.textContent="⚡ SCAN LAGI";
+  scanRunning=false;
 }
 
-function publishPost() {
-  const title   = document.getElementById('f-title').value.trim();
-  const excerpt = document.getElementById('f-excerpt').value.trim();
-  const body    = document.getElementById('f-body').value.trim();
+function renderProList(containerId, wrapId, items, direction) {
+  if(!items.length) return;
+  sh(wrapId);
+  const isLong = direction === 'long';
+  const accentColor = isLong ? "#00ff87" : "#ff4560";
+  const scoreKey = isLong ? "longScore" : "shortScore";
+  const confKey  = isLong ? "longConf"  : "shortConf";
+  const slKey    = isLong ? "slLong"    : "slShort";
+  const tp1Key   = isLong ? "tp1Long"   : "tp1Short";
+  const tp2Key   = isLong ? "tp2Long"   : "tp2Short";
+  const tp3Key   = isLong ? "tp3Long"   : "tp3Short";
+  const rrKey    = isLong ? "rrLong"    : "rrShort";
 
-  if (!title || !excerpt || !body) { alert('Judul, excerpt, dan isi analisa wajib diisi!'); return; }
+  document.getElementById(containerId).innerHTML = items.map((r,idx)=>{
+    const score = r[scoreKey], conf = r[confKey], rr = r[rrKey];
+    const sl=r[slKey],tp1=r[tp1Key],tp2=r[tp2Key],tp3=r[tp3Key];
+    const rrColor = rr>=2.5?"#00ff87":rr>=1.5?"#00c96a":"#f5c518";
+    const maColor = r.aboveM200===true?"#00ff87":r.aboveM200===false?"#ff4560":"#f5c518";
+
+    return `<div style="background:rgba(9,12,20,.92);border:1px solid ${accentColor}20;border-left:3px solid ${accentColor};border-radius:12px;padding:14px 16px;margin-bottom:9px;position:relative">
+      <!-- Rank -->
+      <div style="position:absolute;top:10px;right:13px;font-size:22px;font-weight:900;color:${accentColor};opacity:.08;font-family:'IBM Plex Mono',monospace">#${idx+1}</div>
+
+      <!-- Header -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+        <div style="font-size:20px;font-weight:800;color:#e8f0f8;letter-spacing:1px">${r.ticker}</div>
+        <div style="font-size:18px;font-weight:700;color:#e8f0f8;font-family:'IBM Plex Mono',monospace">${fmt(r.price)}</div>
+        <div style="font-size:11px;font-weight:700;color:${r.ch24>=0?"#00ff87":"#ff4560"}">${r.ch24>=0?"+":""}${r.ch24.toFixed(2)}%</div>
+        <div style="background:${accentColor}15;border:1px solid ${accentColor}40;border-radius:6px;padding:3px 10px;font-size:9px;font-weight:700;color:${accentColor};letter-spacing:1px">
+          ${isLong?"▲ LONG":"▼ SHORT"} · Score ${score>0?"+":""}${score}
+        </div>
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:3px 10px;font-size:9px;color:#c4ccd6">Konfluensi: ${conf}%</div>
+      </div>
+
+      <!-- Metrics -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(75px,1fr));gap:5px;margin-bottom:10px">
+        ${[
+          {l:"RSI",    v:r.rD,    c:r.rD>70?"#ff4560":r.rD<35?"#00ff87":"#f5c518"},
+          {l:"Stoch",  v:r.stK||"—", c:r.stK&&r.stK<25?"#00ff87":r.stK&&r.stK>75?"#ff4560":"#c4ccd6"},
+          {l:"MACD",   v:r.macdDir,  c:r.macdDir==="▲"?"#00ff87":"#ff4560"},
+          {l:"MA200",  v:r.aboveM200===true?"Atas":r.aboveM200===false?"Bawah":"—", c:maColor},
+          {l:"EMA X",  v:r.goldenX===true?"Golden":r.goldenX===false?"Death":"—", c:r.goldenX===true?"#00ff87":r.goldenX===false?"#ff4560":"#5a6a7a"},
+          {l:"BB",     v:r.bbState, c:r.bbState==="OS"?"#00ff87":r.bbState==="OB"?"#ff4560":"#5a6a7a"},
+          {l:"Vol24h", v:r.vol24>=1e9?"$"+(r.vol24/1e9).toFixed(1)+"B":"$"+(r.vol24/1e6).toFixed(0)+"M", c:"#5a6a7a"},
+          {l:"ATR%",   v:r.atrPct+"%", c:"#5a6a7a"},
+        ].map(x=>`<div style="background:rgba(255,255,255,.025);border-radius:6px;padding:5px 7px;text-align:center">
+          <div style="font-size:7px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">${x.l}</div>
+          <div style="font-size:10px;font-weight:700;color:${x.c};font-family:'IBM Plex Mono',monospace">${x.v}</div>
+        </div>`).join("")}
+      </div>
+
+      <!-- TP/SL levels -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:9px">
+        <div style="background:rgba(255,69,96,.06);border:1px solid rgba(255,69,96,.15);border-radius:6px;padding:5px 7px;text-align:center">
+          <div style="font-size:7px;color:#7a2030;letter-spacing:1px;margin-bottom:2px;text-transform:uppercase">Stop Loss</div>
+          <div style="font-size:10px;font-weight:700;color:#ff4560;font-family:'IBM Plex Mono',monospace">${fmt(sl)}</div>
+        </div>
+        ${[{l:"TP1",v:tp1},{l:"TP2",v:tp2},{l:"TP3",v:tp3}].map((tp,ti)=>`
+        <div style="background:rgba(0,255,135,${0.06-ti*0.015});border:1px solid rgba(0,255,135,${0.2-ti*0.05});border-radius:6px;padding:5px 7px;text-align:center">
+          <div style="font-size:7px;color:#1e4a2a;letter-spacing:1px;margin-bottom:2px;text-transform:uppercase">${tp.l}</div>
+          <div style="font-size:10px;font-weight:700;color:${ti===0?"#00ff87":ti===1?"#00c96a":"#009955"};font-family:'IBM Plex Mono',monospace">${fmt(tp.v)}</div>
+        </div>`).join("")}
+      </div>
+
+      <!-- R:R bar -->
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
+        <div style="flex:1;background:rgba(255,255,255,.05);border-radius:3px;height:4px;overflow:hidden">
+          <div style="height:100%;width:${Math.min(100,rr/4*100)}%;background:${rrColor};border-radius:3px;transition:width .6s"></div>
+        </div>
+        <div style="font-size:11px;font-weight:800;color:${rrColor};font-family:'IBM Plex Mono',monospace;white-space:nowrap">R:R 1:${rr.toFixed(2)}</div>
+        <div style="font-size:9px;color:${rrColor}">${rr>=2.5?"✓ Excellent":rr>=2?"✓ Very Good":rr>=1.5?"✓ Good":"⚠ Minimal"}</div>
+      </div>
+
+      <!-- Confidence bar -->
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:8px;color:var(--dmr);margin-bottom:3px"><span>Konfluensi ${direction.toUpperCase()}</span><span style="color:${accentColor}">${conf}%</span></div>
+        <div style="background:rgba(255,255,255,.05);border-radius:3px;height:3px;overflow:hidden">
+          <div style="height:100%;width:${conf}%;background:${accentColor};border-radius:3px;opacity:.7"></div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+        <button onclick="goAnalyze('${r.ticker}')"
+          style="padding:8px;background:rgba(0,255,135,.07);border:1px solid rgba(0,255,135,.25);border-radius:7px;color:#00ff87;font-size:9px;font-weight:700;letter-spacing:.8px;cursor:pointer;font-family:'IBM Plex Mono',monospace">
+          📊 DETAIL
+        </button>
+        <button onclick="quickSave('${r.ticker}','${isLong?"BELI":"JUAL"}',${r.price},${sl},${tp1},${tp2},${tp3},${conf})"
+          style="padding:8px;background:rgba(0,204,255,.07);border:1px solid rgba(0,204,255,.25);border-radius:7px;color:#00ccff;font-size:9px;font-weight:700;letter-spacing:.8px;cursor:pointer;font-family:'IBM Plex Mono',monospace">
+          ＋ TRACKER
+        </button>
+        <button onclick="quickTradeOpen('${r.ticker}','${isLong?"BELI":"JUAL"}',${r.price},${sl},${tp1},${tp2},${tp3})"
+          style="padding:8px;background:rgba(245,197,24,.07);border:1px solid rgba(245,197,24,.25);border-radius:7px;color:#f5c518;font-size:9px;font-weight:700;letter-spacing:.8px;cursor:pointer;font-family:'IBM Plex Mono',monospace">
+          ⚡ BYBIT
+        </button>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function renderTier(containerId, items, wrapId, color, label) {
+  if(!items.length) return;
+  sh(wrapId);
+  document.getElementById(containerId).innerHTML = items.map((r,idx) => {
+    const sc2 = SC[r.sig]||SC.TAHAN;
+    const rrColor = r.rr>=2?"#00ff87":r.rr>=1.5?"#00c96a":"#f5c518";
+    const maColor = r.aboveM200===true?"#00ff87":r.aboveM200===false?"#ff4560":"#f5c518";
+    const gcColor = r.goldenX===true?"#00ff87":r.goldenX===false?"#ff4560":"#5a6a7a";
+    return `<div style="background:rgba(9,12,20,.9);border:1px solid ${color}22;border-left:3px solid ${color};border-radius:12px;padding:14px 16px;margin-bottom:9px;position:relative;overflow:hidden">
+      <!-- Rank badge -->
+      <div style="position:absolute;top:12px;right:14px;font-size:10px;font-weight:800;color:${color};opacity:.4;font-family:'IBM Plex Mono',monospace">#${idx+1}</div>
+
+      <!-- Header row -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+        <div style="font-size:18px;font-weight:800;color:#e8f0f8;letter-spacing:1px">${r.ticker}</div>
+        <div style="font-size:20px;font-weight:700;color:#e8f0f8;font-family:'IBM Plex Mono',monospace">${fmt(r.price)}</div>
+        <div style="font-size:11px;font-weight:700;color:${r.ch24>=0?"#00ff87":"#ff4560"}">${r.ch24>=0?"+":""}${r.ch24.toFixed(2)}%</div>
+        <span style="background:${sc2.bg};border:1px solid ${sc2.bd};border-radius:6px;padding:3px 10px;font-size:10px;font-weight:700;color:${sc2.c};letter-spacing:1.5px">${sc2.ic} ${r.sig}</span>
+        <span style="background:${color}18;border:1px solid ${color}40;border-radius:6px;padding:3px 10px;font-size:9px;font-weight:700;color:${color}">Score: ${r.score>0?"+":""}${r.score}</span>
+      </div>
+
+      <!-- Metrics grid -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:6px;margin-bottom:10px">
+        ${[
+          {l:"RSI",      v:r.rD,                    c:r.rD>70?"#ff4560":r.rD<35?"#00ff87":"#f5c518"},
+          {l:"StochRSI", v:r.stK||"—",              c:r.stK&&r.stK<25?"#00ff87":r.stK&&r.stK>75?"#ff4560":"#c4ccd6"},
+          {l:"MACD",     v:r.macdDir,               c:r.macdDir==="▲"?"#00ff87":"#ff4560"},
+          {l:"MA200",    v:r.aboveM200===true?"Atas":r.aboveM200===false?"Bawah":"—", c:maColor},
+          {l:"EMA X",    v:r.goldenX===true?"Golden":r.goldenX===false?"Death":"—",   c:gcColor},
+          {l:"BB",       v:r.bbState,               c:r.bbState==="OS"?"#00ff87":r.bbState==="OB"?"#ff4560":"#5a6a7a"},
+          {l:"ATR%",     v:r.atrPct+"%",            c:"#5a6a7a"},
+          {l:"Konflu.",  v:r.conf_pct+"%",          c:color},
+        ].map(x=>`<div style="background:rgba(255,255,255,.025);border-radius:6px;padding:6px 8px;text-align:center">
+          <div style="font-size:8px;color:var(--dmr);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">${x.l}</div>
+          <div style="font-size:11px;font-weight:700;color:${x.c};font-family:'IBM Plex Mono',monospace">${x.v}</div>
+        </div>`).join("")}
+      </div>
+
+      <!-- TP/SL levels -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:10px">
+        <div style="background:rgba(255,69,96,.06);border:1px solid rgba(255,69,96,.15);border-radius:6px;padding:6px 8px;text-align:center">
+          <div style="font-size:8px;color:#7a2030;letter-spacing:1px;margin-bottom:2px;text-transform:uppercase">Stop Loss</div>
+          <div style="font-size:11px;font-weight:700;color:#ff4560;font-family:'IBM Plex Mono',monospace">${fmt(r.sl)}</div>
+        </div>
+        <div style="background:rgba(0,255,135,.06);border:1px solid rgba(0,255,135,.15);border-radius:6px;padding:6px 8px;text-align:center">
+          <div style="font-size:8px;color:#1e4a2a;letter-spacing:1px;margin-bottom:2px;text-transform:uppercase">TP1</div>
+          <div style="font-size:11px;font-weight:700;color:#00ff87;font-family:'IBM Plex Mono',monospace">${fmt(r.tp1)}</div>
+        </div>
+        <div style="background:rgba(0,255,135,.04);border:1px solid rgba(0,255,135,.1);border-radius:6px;padding:6px 8px;text-align:center">
+          <div style="font-size:8px;color:#1a3d24;letter-spacing:1px;margin-bottom:2px;text-transform:uppercase">TP2</div>
+          <div style="font-size:11px;font-weight:700;color:#00c96a;font-family:'IBM Plex Mono',monospace">${fmt(r.tp2)}</div>
+        </div>
+        <div style="background:rgba(0,255,135,.02);border:1px solid rgba(0,255,135,.07);border-radius:6px;padding:6px 8px;text-align:center">
+          <div style="font-size:8px;color:#14301c;letter-spacing:1px;margin-bottom:2px;text-transform:uppercase">TP3</div>
+          <div style="font-size:11px;font-weight:700;color:#009955;font-family:'IBM Plex Mono',monospace">${fmt(r.tp3)}</div>
+        </div>
+      </div>
+
+      <!-- R:R bar -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="flex:1;background:rgba(255,255,255,.05);border-radius:4px;height:5px;overflow:hidden">
+          <div style="height:100%;width:${Math.min(100,r.rr/4*100)}%;background:linear-gradient(90deg,${rrColor},${rrColor}88);border-radius:4px;transition:width .5s"></div>
+        </div>
+        <div style="font-size:11px;font-weight:800;color:${rrColor};font-family:'IBM Plex Mono',monospace;white-space:nowrap">R:R 1:${r.rr.toFixed(2)}</div>
+        <div style="font-size:9px;color:${rrColor};">${r.rr>=2?"✓ Excellent":r.rr>=1.5?"✓ Good":"⚠ Minimal"}</div>
+      </div>
+
+      <!-- Action buttons -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px">
+        <button onclick="goAnalyze('${r.ticker}')"
+          style="padding:9px 8px;background:rgba(0,255,135,.08);border:1px solid rgba(0,255,135,.3);border-radius:8px;color:#00ff87;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s"
+          onmouseover="this.style.background='rgba(0,255,135,.18)'" onmouseout="this.style.background='rgba(0,255,135,.08)'">
+          📊 ANALISIS DETAIL
+        </button>
+        <button onclick="quickSave('${r.ticker}','${r.sig}',${r.price},${r.sl},${r.tp1},${r.tp2},${r.tp3},${r.conf_pct})"
+          style="padding:9px 8px;background:rgba(0,204,255,.08);border:1px solid rgba(0,204,255,.3);border-radius:8px;color:#00ccff;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s"
+          onmouseover="this.style.background='rgba(0,204,255,.18)'" onmouseout="this.style.background='rgba(0,204,255,.08)'">
+          ＋ SAVE TRACKER
+        </button>
+        <button onclick="quickTradeOpen('${r.ticker}','${r.sig}',${r.price},${r.sl},${r.tp1},${r.tp2},${r.tp3})"
+          style="padding:9px 8px;background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.3);border-radius:8px;color:#f5c518;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s"
+          onmouseover="this.style.background='rgba(245,197,24,.18)'" onmouseout="this.style.background='rgba(245,197,24,.08)'">
+          ⚡ BYBIT
+        </button>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function goAnalyze(ticker) {
+  document.getElementById('ti').value = ticker;
+  T('analyze');
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>AN(ticker), 100);
+}
+
+function quickSave(ticker,sig,price,sl,tp1,tp2,tp3,cp) {
+  const sigs = GS();
+  const dup = sigs.find(s=>s.ticker===ticker&&s.status==="active"&&Date.now()-s.timestamp<7200000);
+  if(dup){ alert(`Signal ${ticker} sudah ada di tracker.`); return; }
+  sigs.unshift({id:Date.now(),ticker,coinName:ticker,sig,conf:7,cp,price,entry:price,sl,tp1,tp2,tp3,timestamp:Date.now(),status:"active",currentPrice:price,hitLevel:null,hitPrice:null,hitTime:null});
+  SS(sigs);
+  event.target.textContent="✓ Saved!";
+  event.target.style.color="#00ff87";
+  setTimeout(()=>{event.target.textContent="＋ SAVE TRACKER";event.target.style.color="#00ccff";},2000);
+}
+
+function quickTradeOpen(ticker,sig,price,sl,tp1,tp2,tp3) {
+  CSD={ticker,sig,conf:7,cp:70,price,entry:price,sl,tp1,tp2,tp3,trend:"—"};
+  const sym=ticker+"USDT";
+  const size=100,lev=LEV;
+  const qty=(size*lev/price);
+  const qtyStr=qty>=1?qty.toFixed(3):qty.toFixed(6);
+  const orderText=`AC369 SCANNER SIGNAL
+Pair: ${sym} | ${sig}
+Entry: ${fmt(price)} | SL: ${fmt(sl)}
+TP1: ${fmt(tp1)} | TP2: ${fmt(tp2)} | TP3: ${fmt(tp3)}
+Lev: ${lev}x | @Alphacrypto_id`;
+  navigator.clipboard.writeText(orderText).catch(()=>{});
+  window.open(`https://www.bybit.com/trade/usdt/${sym}`,'_blank');
+}
+
+// ═══════════════════════════════════════════════
+// CONTENT GENERATOR ENGINE
+// ═══════════════════════════════════════════════
+let scanResultsCache = [];
+let selectedCoinsForContent = new Set();
+let selectedTone = "institutional";
+let selectedContentTypes = new Set(["telegram_public","telegram_vip"]);
+
+const CONTENT_TYPES = [
+  {id:"telegram_public",  icon:"📢", label:"Telegram Publik",   desc:"Teaser + CTA ke premium"},
+  {id:"telegram_vip",     icon:"👑", label:"Telegram VIP",      desc:"Signal lengkap member"},
+  {id:"story_caption",    icon:"📱", label:"Story / Feed",       desc:"Caption singkat visual"},
+  {id:"thread",           icon:"🧵", label:"Thread Breakdown",   desc:"Edukasi 5-7 poin"},
+  {id:"daily_watchlist",  icon:"👁", label:"Daily Watchlist",    desc:"Ringkasan koin pantauan"},
+  {id:"winrate_post",     icon:"🏆", label:"Winrate Update",     desc:"Post track record bulanan"},
+];
+
+function openContentGenerator() {
+  T('content');
+}
+
+function initContentTab() {
+  // Build content type grid
+  const grid = document.getElementById('content-type-grid');
+  if(grid) {
+    grid.innerHTML = CONTENT_TYPES.map(ct => `
+      <label style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:${selectedContentTypes.has(ct.id)?"rgba(245,197,24,.08)":"rgba(255,255,255,.02)"};border:1px solid ${selectedContentTypes.has(ct.id)?"rgba(245,197,24,.3)":"rgba(255,255,255,.06)"};border-radius:9px;cursor:pointer;transition:all .2s" id="ctlbl-${ct.id}">
+        <input type="checkbox" ${selectedContentTypes.has(ct.id)?"checked":""} onchange="toggleCT('${ct.id}',this)" style="accent-color:#f5c518;width:14px;height:14px"/>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#e8f0f8">${ct.icon} ${ct.label}</div>
+          <div style="font-size:9px;color:var(--dmr);margin-top:1px">${ct.desc}</div>
+        </div>
+      </label>`).join("");
+  }
+
+  // Build coin selector from scan cache
+  const coinList = document.getElementById('content-coin-list');
+  if(coinList && scanResultsCache.length > 0) {
+    coinList.innerHTML = scanResultsCache
+      .filter(r => r.sig === "BELI" || r.score >= 3)
+      .slice(0, 12)
+      .map(r => {
+        const sc2 = SC[r.sig]||SC.TAHAN;
+        const sel = selectedCoinsForContent.has(r.ticker);
+        return `<button onclick="toggleCoin('${r.ticker}')" id="ccoin-${r.ticker}"
+          style="padding:6px 12px;border-radius:20px;font-size:10px;font-weight:700;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s;
+          background:${sel?sc2.bg:"rgba(255,255,255,.03)"};border:1px solid ${sel?sc2.bd:"rgba(255,255,255,.07)"};color:${sel?sc2.c:"var(--dim)"}">
+          ${r.ticker} <span style="opacity:.6;font-size:8px">${r.sig}</span>
+        </button>`;
+      }).join("");
+  } else if(coinList && scanResultsCache.length === 0) {
+    coinList.innerHTML = `<div style="font-size:11px;color:var(--dmr)">Jalankan scanner dulu untuk memilih koin.</div>`;
+  }
+}
+
+function toggleCT(id, cb) {
+  if(cb.checked) selectedContentTypes.add(id); else selectedContentTypes.delete(id);
+  const lbl = document.getElementById('ctlbl-'+id);
+  if(lbl) {
+    lbl.style.background = cb.checked ? "rgba(245,197,24,.08)" : "rgba(255,255,255,.02)";
+    lbl.style.borderColor = cb.checked ? "rgba(245,197,24,.3)" : "rgba(255,255,255,.06)";
+  }
+}
+
+function toggleCoin(ticker) {
+  if(selectedCoinsForContent.has(ticker)) selectedCoinsForContent.delete(ticker);
+  else selectedCoinsForContent.add(ticker);
+  initContentTab();
+}
+
+function setTone(tone) {
+  selectedTone = tone;
+  document.querySelectorAll('.tone-btn').forEach(b => {
+    const active = b.dataset.tone === tone;
+    b.style.background = active ? "rgba(0,255,135,.12)" : "rgba(255,255,255,.03)";
+    b.style.borderColor = active ? "rgba(0,255,135,.4)" : "rgba(255,255,255,.08)";
+    b.style.color = active ? "#00ff87" : "var(--dim)";
+  });
+}
+
+function generateContent() {
+  const coins = scanResultsCache.filter(r => selectedCoinsForContent.has(r.ticker));
+  if(coins.length === 0) {
+    // use top results if none selected
+    const top = scanResultsCache.filter(r=>r.sig==="BELI").slice(0,3);
+    top.forEach(r => selectedCoinsForContent.add(r.ticker));
+    if(top.length === 0) { alert("Jalankan scanner dan pilih koin dulu."); return; }
+    top.forEach(r => coins.push(r));
+  }
 
   const now = new Date();
-  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-  const dateStr = `${String(now.getDate()).padStart(2,'0')} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  const dateStr = now.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
+  const timeStr = now.toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"});
+  const outputs = [];
 
-  const post = {
-    id: 'post-' + Date.now(),
-    cat:    document.getElementById('f-cat').value,
-    bias:   document.getElementById('f-bias').value,
-    title,
-    excerpt,
-    date:   dateStr,
-    sup:    document.getElementById('f-sup').value,
-    res:    document.getElementById('f-res').value,
-    entry:  document.getElementById('f-entry').value,
-    tp:     document.getElementById('f-tp').value,
-    pbull:  parseInt(document.getElementById('f-pbull').value) || 50,
-    pbear:  parseInt(document.getElementById('f-pbear').value) || 50,
-    featured: true,
-    body
-  };
+  // Get winrate from tracker for credibility
+  const sigs = GS();
+  const closedSigs = sigs.filter(s=>s.status!=="active");
+  const wins = closedSigs.filter(s=>s.status==="win").length;
+  const losses = closedSigs.filter(s=>s.status==="loss").length;
+  const wr = wins+losses > 0 ? Math.round(wins/(wins+losses)*100) : null;
 
-  // Unfeatured old posts
-  const posts = getPosts().map(p => ({...p, featured: false}));
-  posts.unshift(post);
-  savePosts(posts);
+  const tierSCoins  = coins.filter(r => r.score >= 7 && r.rr >= 2);
+  const tierACoins  = coins.filter(r => r.score >= 4 && r.rr >= 1.5 && !tierSCoins.includes(r));
+  const allTiered   = [...tierSCoins, ...tierACoins, ...coins.filter(r=>!tierSCoins.includes(r)&&!tierACoins.includes(r))];
 
-  // Reset form
-  ['f-title','f-excerpt','f-body','f-sup','f-res','f-entry','f-tp','f-pbull','f-pbear']
-    .forEach(id => { document.getElementById(id).value = ''; });
+  // ── TEMPLATE ENGINE ──
+  const toneEmoji = {institutional:"📊", casual:"🚀", hype:"🔥", educational:"🧠"};
+  const toneE = toneEmoji[selectedTone];
 
-  renderPosts();
-  renderAdminList();
-  alert(`✅ Analisa "${title}" berhasil dipublish!`);
-}
-
-function exportHTML() {
-  const posts = getPosts();
-  // Serialize posts as JS-safe JSON embedded in the HTML
-  const postsJSON = JSON.stringify(posts, null, 2)
-    .replace(/<\/script>/gi, '<\\/script>'); // escape closing tags in body content
-
-  // Read current page HTML and replace SAMPLE_POSTS + POSTS_DATA init
-  let html = document.documentElement.outerHTML;
-
-  // Replace the SAMPLE_POSTS array + POSTS_DATA init block
-  const marker1 = 'const SAMPLE_POSTS = [';
-  const marker2 = 'let POSTS_DATA = [...SAMPLE_POSTS];';
-  const start = html.indexOf(marker1);
-  const end   = html.indexOf(marker2) + marker2.length;
-
-  if (start === -1 || end === -1) {
-    alert('Export error: marker tidak ditemukan. Hubungi admin.');
-    return;
+  if(selectedContentTypes.has("telegram_public")) {
+    let body = "";
+    if(selectedTone === "institutional") {
+      body = `${toneE} *AC369 MARKET SCAN — ${dateStr}*\n\n` +
+        `Setelah scan ${UNIVERSES[SELECTED_UNIVERSE]?.length||22} aset dengan framework SMC + multi-indikator, berikut koin yang masuk radar hari ini:\n\n`;
+      allTiered.slice(0,4).forEach((r,i) => {
+        const tier = tierSCoins.includes(r)?"🥇 TIER S":tierACoins.includes(r)?"🟢 TIER A":"🔵 TIER B";
+        body += `${tier} *${r.ticker}/USDT*\n`;
+        body += `├ Harga: ${fmt(r.price)} (${r.ch24>=0?"+":""}${r.ch24.toFixed(2)}% 24h)\n`;
+        body += `├ Signal: *${r.sig}* | Konfluensi: ${r.conf_pct}%\n`;
+        body += `├ RSI: ${r.rD} | MACD: ${r.macdDir} | MA200: ${r.aboveM200?"✅ Atas":"❌ Bawah"}\n`;
+        body += `└ R:R ${r.rr.toFixed(2)} | SL: ${fmt(r.sl)} → TP1: ${fmt(r.tp1)}\n\n`;
+      });
+      body += `⚠️ _Ini adalah output dari sistem scan otomatis — bukan saran investasi._\n\n`;
+      body += `🔐 *Analisis lengkap + entry timing + update real-time ada di VIP Premium.*\n`;
+      body += `👉 DM @soloadmin369 atau cek bio untuk daftar.\n\n`;
+      if(wr) body += `📈 _Track record sistem: ${wr}% winrate dari ${wins+losses} signal closed_\n\n`;
+      body += `#AlphaCrypto369 #Crypto #Bitcoin #Trading`;
+    } else if(selectedTone === "casual") {
+      body = `${toneE} Guys, hasil scan malem ini keluar nih!\n\n`;
+      allTiered.slice(0,3).forEach(r => {
+        body += `🪙 *${r.ticker}* — ${r.sig === "BELI" ? "setup bagus nih" : r.sig === "TAHAN" ? "tunggu dulu" : "hati-hati"}\n`;
+        body += `Harga: ${fmt(r.price)} | RSI: ${r.rD} | R:R: 1:${r.rr.toFixed(1)}\n\n`;
+      });
+      body += `Detail lengkap + level entry/SL/TP ada di premium ya 👆\n`;
+      body += `DM @soloadmin369 untuk daftar 🔥\n\n`;
+      body += `#AC369 #Crypto #Trading`;
+    } else if(selectedTone === "hype") {
+      body = `🔥🔥 *ALARM SCANNER AC369* 🔥🔥\n\n`;
+      body += `Sistem kita baru aja deteksi setup GILA di:\n\n`;
+      allTiered.slice(0,3).forEach(r => {
+        body += `⚡ *${r.ticker}* — Score ${r.score>0?"+":""}${r.score}/15 | RSI ${r.rD}\n`;
+        body += `→ ${r.sig} setup dengan konfluensi ${r.conf_pct}%\n\n`;
+      });
+      body += `🔐 Level entry, SL, TP1/2/3 HANYA di VIP Premium.\n`;
+      body += `Slots terbatas — DM @soloadmin369 SEKARANG.\n\n`;
+      body += `#AC369 #CryptoSignal 🚀`;
+    } else {
+      body = `🧠 *BELAJAR BACA MARKET — ${dateStr}*\n\n`;
+      body += `Hari ini kita scan market dan temukan beberapa setup menarik. Mari kita bedah satu:\n\n`;
+      const r = allTiered[0];
+      if(r) {
+        body += `📌 *${r.ticker}/USDT — Case Study*\n\n`;
+        body += `*Kenapa masuk radar?*\n`;
+        body += `• RSI ${r.rD} — ${r.rD<50?"belum overbought, ada ruang naik":"mendekati area kritis"}\n`;
+        body += `• MA200: ${r.aboveM200?"Harga di atas MA200 = struktur bullish":"Harga di bawah MA200 = waspada"}\n`;
+        body += `• MACD: ${r.macdDir==="▲"?"Momentum naik, histogram positif":"Momentum sedang koreksi"}\n`;
+        body += `• R:R 1:${r.rr.toFixed(2)} — ${r.rr>=2?"setup favorable":"masih perlu konfirmasi"}\n\n`;
+        body += `*Setup yang baik harus punya:*\n`;
+        body += `✅ Minimal 3 konfirmasi\n✅ R:R minimal 1:1.5\n✅ SL di bawah support kuat\n\n`;
+      }
+      body += `📚 Mau belajar analisa mandiri? Join komunitas AC369 — link di bio.\n\n`;
+      body += `#AlphaCrypto369 #TradingEducation #Crypto`;
+    }
+    outputs.push({type:"telegram_public", title:"📢 Telegram Publik (Free Channel)", body, char: body.length});
   }
 
-  const newBlock = `const SAMPLE_POSTS = ${postsJSON};\n\nlet POSTS_DATA = [...SAMPLE_POSTS];`;
-  html = html.slice(0, start) + newBlock + html.slice(end);
+  if(selectedContentTypes.has("telegram_vip")) {
+    let body = `👑 *AC369 VIP SIGNAL REPORT*\n`;
+    body += `📅 ${dateStr} · ${timeStr} WIB\n`;
+    body += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+    allTiered.forEach((r,i) => {
+      const tier = tierSCoins.includes(r)?"🥇 TIER S — ENTRY NOW":tierACoins.includes(r)?"🟢 TIER A — HIGH PRIORITY":"🔵 TIER B — WATCHLIST";
+      const sc2 = SC[r.sig]||SC.TAHAN;
+      body += `${tier}\n`;
+      body += `*${r.ticker}/USDT PERPETUAL*\n`;
+      body += `💰 Harga: ${fmt(r.price)} | ${r.ch24>=0?"+":""}${r.ch24.toFixed(2)}% 24h\n\n`;
+      body += `📊 *Analisis Teknikal*\n`;
+      body += `• RSI D: ${r.rD} (${r.rD>70?"OB":r.rD<30?"OS":"Netral"})\n`;
+      body += `• StochRSI: ${r.stK||"—"} | MACD: ${r.macdDir==="▲"?"Bullish":"Bearish"}\n`;
+      body += `• MA200: ${r.aboveM200===true?"✅ Atas":r.aboveM200===false?"❌ Bawah":"—"} | GoldenX: ${r.goldenX===true?"✅":"❌"}\n`;
+      body += `• Konfluensi: ${r.conf_pct}% | Score: ${r.score>0?"+":""}${r.score}/15\n\n`;
+      body += `🎯 *Level Trading*\n`;
+      body += `• 🟡 Entry: ${fmt(r.price)}\n`;
+      body += `• 🔴 Stop Loss: ${fmt(r.sl)}\n`;
+      body += `• 🟢 TP1: ${fmt(r.tp1)} (R:R 1:${r.rr.toFixed(2)})\n`;
+      body += `• 🟢 TP2: ${fmt(r.tp2)}\n`;
+      body += `• 🟢 TP3: ${fmt(r.tp3)}\n\n`;
+      body += `⚡ *Action*: ${r.sig==="BELI"?"Akumulasi bertahap di zona entry. Pastikan volume konfirmasi.":r.sig==="JUAL"?"Hindari long. Tunggu reversal signal sebelum entry.":"Tunggu konfirmasi BOS atau breakout sebelum entry."}\n`;
+      body += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+    });
+    body += `⚠️ _Gunakan manajemen risiko. Max 1-2% per trade. Bukan saran investasi._\n`;
+    body += `_AC369 Signal System · @Alphacrypto_id_`;
+    outputs.push({type:"telegram_vip", title:"👑 Telegram VIP (Premium Member)", body, char: body.length});
+  }
 
-  const blob = new Blob([html], { type: 'text/html' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = 'index.html';
-  a.click();
-  URL.revokeObjectURL(url);
+  if(selectedContentTypes.has("story_caption")) {
+    const topCoins = allTiered.slice(0,3);
+    let body = "";
+    if(selectedTone === "institutional") {
+      body = `📊 AC369 SCAN ALERT\n${dateStr}\n\n`;
+      topCoins.forEach(r => { body += `${r.sig==="BELI"?"🟢":"🔴"} ${r.ticker} ${fmt(r.price)} | RSI ${r.rD} | R:R ${r.rr.toFixed(1)}\n`; });
+      body += `\nDetail lengkap di VIP Premium 🔐\nDM @soloadmin369`;
+    } else if(selectedTone === "hype") {
+      body = `🚨 ALERT 🚨\n${topCoins.map(r=>`${r.ticker} ${r.sig==="BELI"?"🟢":"🔴"}`).join(" · ")}\n\nSetup gila terpantau!\nEntry, SL, TP di VIP 👑\nDM @soloadmin369`;
+    } else {
+      body = `${topCoins.slice(0,2).map(r=>`${r.ticker} ${r.sig}`).join(" · ")}\n${dateStr}\n\nJoin AC369 Premium untuk signal lengkap\n@Alphacrypto_id`;
+    }
+    outputs.push({type:"story_caption", title:"📱 Story / Feed Caption", body, char: body.length});
+  }
 
-  alert('✅ File index.html berhasil diexport!\nUpload ke GitHub repo ac369-insight untuk update web.');
+  if(selectedContentTypes.has("thread")) {
+    const r = allTiered[0];
+    if(r) {
+      const body =
+`🧵 BREAKDOWN: Kenapa ${r.ticker} masuk radar hari ini?
+
+1/ Harga ${r.ticker} saat ini di ${fmt(r.price)} (${r.ch24>=0?"+":""}${r.ch24.toFixed(2)}% 24h). Setelah scan multi-timeframe, ada beberapa konfluensi menarik.
+
+2/ RSI Daily berada di ${r.rD}. ${r.rD<40?"Ini zona yang secara historis sering jadi area akumulasi sebelum momentum naik.":r.rD>65?"Mendekati area overbought — perlu konfirmasi volume sebelum entry.":"Netral — belum ekstrem di kedua arah."}
+
+3/ Moving Average: Harga ${r.aboveM200===true?"di atas MA200 — struktur bullish terjaga secara jangka panjang.":r.aboveM200===false?"di bawah MA200 — tekanan bearish masih dominan.":"dalam fase transisi terhadap MA200."}
+
+4/ MACD Daily menunjukkan histogram ${r.macdDir==="▲"?"positif — momentum naik aktif. Ini sering menjadi early signal sebelum pergerakan signifikan.":"negatif — momentum sedang turun. Perlu reversal konfirmasi sebelum entry."}
+
+5/ Setup R:R saat ini 1:${r.rr.toFixed(2)} dengan SL di ${fmt(r.sl)} dan TP1 di ${fmt(r.tp1)}. ${r.rr>=2?"Ini termasuk setup yang favorable untuk dipertimbangkan.":"Masih perlu konfirmasi tambahan untuk R:R yang lebih baik."}
+
+6/ Konfluensi keseluruhan: ${r.conf_pct}% dari ${r.score>0?r.score+" faktor bullish aktif":"faktor mixed"}. ${r.conf_pct>=70?"Setup ini layak masuk watchlist prioritas.":"Masih perlu 1-2 konfirmasi tambahan."}
+
+7/ CATATAN: Ini analisis teknikal dari AC369 Signal System — bukan saran finansial. Selalu gunakan SL dan manajemen risiko. Untuk signal lengkap + live update, bergabung di premium AC369.
+
+@Alphacrypto_id 🔐`;
+      outputs.push({type:"thread", title:"🧵 Thread Breakdown (7 poin)", body, char: body.length});
+    }
+  }
+
+  if(selectedContentTypes.has("daily_watchlist")) {
+    let body = `👁 *AC369 DAILY WATCHLIST*\n${dateStr} · ${timeStr} WIB\n\n`;
+    body += `Koin yang perlu dipantau ketat hari ini:\n\n`;
+    allTiered.slice(0,6).forEach((r,i) => {
+      const e = r.sig==="BELI"?"🟢":r.sig==="JUAL"?"🔴":"🟡";
+      body += `${i+1}. ${e} *${r.ticker}* — ${fmt(r.price)} | ${r.sig} | RSI ${r.rD}\n`;
+    });
+    body += `\n📌 Update signal real-time di VIP Premium.\n`;
+    body += `DM @soloadmin369 untuk daftar.\n\n`;
+    body += `#AC369 #Watchlist #Crypto`;
+    outputs.push({type:"daily_watchlist", title:"👁 Daily Watchlist", body, char: body.length});
+  }
+
+  if(selectedContentTypes.has("winrate_post")) {
+    if(wr !== null) {
+      const month = now.toLocaleDateString("id-ID",{month:"long",year:"numeric"});
+      let body = `🏆 *AC369 TRACK RECORD — ${month.toUpperCase()}*\n\n`;
+      body += `Transparansi adalah fondasi kepercayaan.\n\n`;
+      body += `📊 *Statistik Bulan Ini:*\n`;
+      body += `• Winrate: *${wr}%*\n`;
+      body += `• Total Signal: ${wins+losses}\n`;
+      body += `• ✅ Win: ${wins}\n`;
+      body += `• ❌ Loss: ${losses}\n\n`;
+      body += wr>=65 ?
+        `Konsistensi adalah kunci. Bukan hanya sekali profit, tapi sistem yang terbukti over time.\n\n` :
+        `Tidak semua signal win — yang penting manajemen risiko terjaga dan sistem berjalan konsisten.\n\n`;
+      body += `🔐 *Join AC369 Premium* untuk:\n`;
+      body += `✅ Signal real-time dengan entry/SL/TP\n`;
+      body += `✅ Analisis market harian\n`;
+      body += `✅ Track record transparan\n\n`;
+      body += `DM @soloadmin369 atau cek bio.\n\n`;
+      body += `#AC369 #TrackRecord #CryptoSignal`;
+      outputs.push({type:"winrate_post", title:`🏆 Post Winrate (${wr}% WR)`, body, char: body.length});
+    } else {
+      outputs.push({type:"winrate_post", title:"🏆 Post Winrate", body:"Belum ada data winrate. Simpan signal ke tracker dan tunggu hit TP/SL.", char:0});
+    }
+  }
+
+  // Render outputs
+  renderContentOutputs(outputs);
+  sh('content-output');
+  document.getElementById('content-output').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
-buildTicker();
-renderPosts();
-updateClock();
+function renderContentOutputs(outputs) {
+  const out = document.getElementById('content-output');
+  out.innerHTML = outputs.map((o,i) => `
+    <div style="background:rgba(9,12,20,.95);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:18px 20px;margin-bottom:12px;animation:fadeUp .35s ${i*0.08}s ease both">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:10px;font-weight:700;color:#e8f0f8">${o.title}</div>
+        <div style="display:flex;gap:7px;align-items:center">
+          <span style="font-size:9px;color:var(--dmr)">${o.char} karakter</span>
+          <button onclick="copyContent(${i})" id="copybtn-${i}"
+            style="padding:6px 14px;background:rgba(0,255,135,.09);border:1px solid rgba(0,255,135,.3);border-radius:7px;color:#00ff87;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s">
+            📋 COPY
+          </button>
+        </div>
+      </div>
+      <div id="content-text-${i}" style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);border-radius:9px;padding:14px 16px;font-size:11px;color:#8a9aaa;line-height:1.8;white-space:pre-wrap;font-family:'IBM Plex Mono',monospace;max-height:320px;overflow-y:auto;word-break:break-word">${escHtml(o.body)}</div>
+      <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap">
+        <button onclick="openTelegram(${i})"
+          style="padding:7px 14px;background:rgba(0,136,204,.1);border:1px solid rgba(0,136,204,.3);border-radius:7px;color:#00aaff;font-size:9px;font-weight:700;cursor:pointer;font-family:'IBM Plex Mono',monospace">
+          ✈️ Buka Telegram
+        </button>
+        <button onclick="previewContent(${i})"
+          style="padding:7px 14px;background:rgba(245,197,24,.07);border:1px solid rgba(245,197,24,.25);border-radius:7px;color:#f5c518;font-size:9px;font-weight:700;cursor:pointer;font-family:'IBM Plex Mono',monospace">
+          👁 Preview
+        </button>
+      </div>
+    </div>`).join("");
+
+  // Store outputs globally for copy access
+  window._contentOutputs = outputs;
+}
+
+function escHtml(t) { return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function copyContent(i) {
+  const text = window._contentOutputs[i]?.body || "";
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copybtn-'+i);
+    btn.textContent = "✓ TERSALIN!";
+    btn.style.color = "#00ff87";
+    btn.style.background = "rgba(0,255,135,.18)";
+    setTimeout(() => { btn.textContent = "📋 COPY"; btn.style.color="#00ff87"; btn.style.background="rgba(0,255,135,.09)"; }, 2500);
+  }).catch(() => alert(window._contentOutputs[i]?.body));
+}
+
+function openTelegram(i) {
+  const text = window._contentOutputs[i]?.body || "";
+  navigator.clipboard.writeText(text).catch(()=>{});
+  window.open('https://t.me/','_blank');
+}
+
+function previewContent(i) {
+  const text = window._contentOutputs[i]?.body || "";
+  const win = window.open('','_blank','width=420,height=600');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Preview</title></head>
+    <body style="background:#17212b;color:#fff;font-family:sans-serif;padding:20px;font-size:13px;line-height:1.8;white-space:pre-wrap;word-break:break-word">${escHtml(text)}</body></html>`);
+}
+
+// Hook into scanner to cache results + show generate button
+const _origRenderTier = window.renderTier;
+function afterScanComplete(results) {
+  scanResultsCache = results;
+  sh('gen-content-wrap');
+}
+
+// Auto refresh harga setiap 5 menit saat di tab tracker
+setInterval(()=>{if(document.getElementById('tab-tracker').classList.contains('active'))RF();},300000);
+RT();
 </script>
 </body>
 </html>
